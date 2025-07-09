@@ -1,0 +1,147 @@
+/* ------------------------------------------
+Estilos globales
+------------------------------------------ */
+.wrapper {
+  background-color: #0857a1;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ------------------------------------------
+Animaciones
+------------------------------------------ */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink {
+  0%, 100% { border-color: transparent }
+  50% { border-color: white }
+}
+
+.tituloEscribiendo {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid white;
+  width: 0;
+  animation:
+    typing 3s ease-out 1s forwards,
+    blink 0.5s step-end 0.5s 3 forwards;
+}
+
+/* ------------------------------------------
+Estructura visual de secciones
+------------------------------------------ */
+.pagina {
+  border-radius: 10px;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.login {
+  background-color: white;
+  border-radius: 40px;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ------------------------------------------
+Tipografía y títulos
+------------------------------------------ */
+.titulo {
+  color: white;
+  text-align: center;
+  font-weight: 800;
+  font-family: 'Montserrat', sans-serif;
+  text-shadow: 2px 3px 1px rgba(255, 255, 255, 0.5);
+}
+
+h2 {
+  text-align: start;
+  margin-left: 5%;
+  color: #0857a1;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  text-shadow: 2px 3px 1px rgba(8, 87, 161, 0.672);
+}
+
+p {
+  margin-left: 5%;
+  margin-bottom: 20px;
+  font-weight: 300;
+  font-family: 'Lato', sans-serif;
+}
+
+@media (min-width: 768px) {
+  h2 {
+    margin-left: 80px;
+  }
+
+  p {
+    margin-left: 80px;
+  }
+}
+
+/* ------------------------------------------
+Imágenes
+------------------------------------------ */
+.imagen {
+  height: 240px;
+  text-align: center;
+}
+
+/* ------------------------------------------
+Botones e inputs
+------------------------------------------ */
+.btnPersonalizado {
+ background-color: #0857a1;
+  border-color: #0857a1;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  width: 450px;
+  margin-left: 50px;
+  margin-right: 40px;
+  border-radius: 8px;
+
+}
+
+.btnPersonalizado:hover {
+  background-color: #0857a1;
+  border-color: #0857a1;
+  color: white;
+}
+
+.inputs {
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto 1rem auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+::placeholder {
+  font-weight: 300;
+  font-family: 'Lato', sans-serif;
+}
+
+/* ------------------------------------------
+ Enlaces
+------------------------------------------ */
+a {
+  color: #38b6ff;
+}
+
+.links {
+  text-align: right;
+  margin: 20px auto 50px auto;
+  max-width: 450px;
+}

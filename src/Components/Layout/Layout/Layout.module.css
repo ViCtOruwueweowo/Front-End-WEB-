@@ -1,0 +1,11 @@
+.wrapper {
+  height: 100vh;
+  background-color: #f0f2f5; /* fondo gris claro */
+}
+
+.mainContent {
+  background-color: #f0f2f5;
+  min-height: 100vh;
+  padding: .5rem;
+ 
+}
