@@ -5,8 +5,10 @@ import styles from './Secretary.module.css'
 function Index_Secretary() {
   return (
     <Layout>
-      <div style={{ backgroundColor: "#0857a1", width: "100%", height: "90px" }} className="text-white d-flex justify-content-center align-items-center m-0">
-        <h5 className="m-0 py-3">Gestion De Secretarias</h5>
+      <div style={{ backgroundColor: "#0857a1", width: "100%", height: "90px", display: "flex", justifyContent: "center", alignItems: "flex-end", }} className="text-white m-0">
+        <h5 style={{ fontWeight: 100, marginBottom: "10px", marginTop: 0 }} >
+          Gestion De Secretarias
+        </h5>
       </div>
       <br />
       <div className="d-flex justify-content-end">

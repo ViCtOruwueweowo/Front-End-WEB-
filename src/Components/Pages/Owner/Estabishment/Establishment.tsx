@@ -4,9 +4,14 @@ import styles from "./Establishment.module.css";
 function Estabishment() {
     return (
         <Layout>
-            <div style={{ backgroundColor: "#0857a1", width: "100%", height: "90px" }} className="text-white d-flex justify-content-center align-items-center m-0">
-                <h5 className="m-0 py-3">Añadir Nuevo Establecimiento</h5>
+            <div style={{ backgroundColor: "#0857a1", width: "100%", height: "90px", display: "flex", justifyContent: "center", alignItems: "flex-end", }} className="text-white m-0">
+                <h5 style={{ fontWeight: 100, marginBottom: "10px", marginTop: 0 }} >
+                    Añadir Nuevo Establecimiento
+                </h5>
             </div>
+            <br />
+            <br />
+            <br />
             <div className="d-flex d-flex justify-content-center">
                 <form className="row g-4" style={{ maxWidth: "900px", width: "100%" }}>
                     <div className="col-md-6">
@@ -30,13 +35,28 @@ function Estabishment() {
                     </div>
 
                     <div className="col-md-6">
-                        <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
-                        <label className="form-label">Guarderia</label>
-                        <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
-                        <label className="form-label">Kinder</label>
-                        <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
-                        <label className="form-label">Primaria</label>
+                        <label htmlFor="name" className={`${styles.textLabel} from-label`}>Tipo</label>
+                        <div className="d-flex justify-content-around">
+
+                            <div className="d-flex flex-column align-items-center">
+                                <input className="form-check-input" type="checkbox" name="inlineRadioOptions" id="radioGuarderia" value="guarderia" />
+                                <label className={`${styles.textLabel} from-label`} htmlFor="radioGuarderia">Guardería</label>
+                            </div>
+
+                            <div className="d-flex flex-column align-items-center">
+                                <input className="form-check-input" type="checkbox" name="inlineRadioOptions" id="radioKinder" value="kinder" />
+                                <label className={`${styles.textLabel} from-label`} htmlFor="radioKinder">Kinder</label>
+                            </div>
+
+                            <div className="d-flex flex-column align-items-center">
+                                <input className="form-check-input" type="checkbox" name="inlineRadioOptions" id="radioPrimaria" value="primaria" />
+                                <label className={`${styles.textLabel} from-label`} htmlFor="radioPrimaria">Primaria</label>
+                            </div>
+                        </div>
                     </div>
+
+
+
                     <div className="col-md-6">
                         <label htmlFor="name" className={`${styles.textLabel} from-label`}>Asignar Director</label>
                         <select className="form-select" aria-label="Default select example">
@@ -47,8 +67,8 @@ function Estabishment() {
                         </select>
                     </div>
 
-                    <div className="col-12">
-                        <button type="submit" className="btn btn-primary">Generar Registro</button>
+                    <div className="col-12 text-white d-flex justify-content-center align-items-center ">
+                        <button style={{ width: "220px", backgroundColor: "#0857a1", color: "white", margin: "10px" }} type="submit" className="btn btn-primary"><b>Generar Registro</b></button>
                     </div>
                 </form>
             </div>

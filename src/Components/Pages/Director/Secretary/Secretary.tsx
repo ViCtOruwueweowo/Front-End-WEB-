@@ -4,8 +4,10 @@ import styles from "./Secretary.module.css";
 function Secretary() {
   return (
     <Layout>
-      <div style={{ backgroundColor: "#0857a1", width: "100%", height: "90px" }} className="text-white d-flex justify-content-center align-items-center m-0">
-        <h5 className="m-0 py-3">Añadir Nueva Secretaria</h5>
+      <div style={{ backgroundColor: "#0857a1", width: "100%", height: "90px", display: "flex", justifyContent: "center", alignItems: "flex-end", }} className="text-white m-0">
+        <h5 style={{ fontWeight: 100, marginBottom: "10px", marginTop: 0 }} >
+          Añadir Nueva Secretaria
+        </h5>
       </div>
       <br />
       <br />
@@ -43,7 +45,7 @@ function Secretary() {
           </div>
 
           <div className="col-12 text-white d-flex justify-content-center align-items-center ">
-            <button type="submit" className="btn btn-primary">Añadir Director</button>
+            <button style={{ width: "220px", backgroundColor: "#0857a1", color: "white", margin: "10px" }} type="submit" className="btn btn-primary"><b>Generar Registro</b></button>
           </div>
 
         </form>
