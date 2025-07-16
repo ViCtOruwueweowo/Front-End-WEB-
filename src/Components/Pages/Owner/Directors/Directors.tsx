@@ -16,7 +16,7 @@ function Directors() {
         <form className="row g-4" style={{ maxWidth: "900px", width: "100%" }}>
           <div className="col-md-6">
             <label htmlFor="name" className={`${styles.textLabel} from-label`}>Nombre</label>
-            <input type="text" className="form-control" id="name" placeholder="Ej. Jesus Alejandro" />
+            <input type="text" className="form-control" id="name" />
           </div>
 
           <div className="col-md-6">
@@ -26,7 +26,7 @@ function Directors() {
 
           <div className="col-md-6">
             <label htmlFor="name" className={`${styles.textLabel} from-label`}>Apellido</label>
-            <input type="text" className="form-control" id="name" placeholder="Ej. Beltran Martinez" />
+            <input type="text" className="form-control" id="name" />
           </div>
 
           <div className="col-md-6">

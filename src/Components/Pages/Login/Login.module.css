@@ -13,13 +13,25 @@ Estilos globales
 Animaciones
 ------------------------------------------ */
 @keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
+  from {
+    width: 0
+  }
+
+  to {
+    width: 100%
+  }
 }
 
 @keyframes blink {
-  0%, 100% { border-color: transparent }
-  50% { border-color: white }
+
+  0%,
+  100% {
+    border-color: transparent
+  }
+
+  50% {
+    border-color: white
+  }
 }
 
 .tituloEscribiendo {
@@ -101,17 +113,36 @@ Imágenes
 /* ------------------------------------------
 Botones e inputs
 ------------------------------------------ */
+
+.alerta {
+  background-color: #e09191;
+  color: white;
+  font-weight: 400;
+  font-family: 'Montserrat', sans-serif;
+  margin-left: 50px;
+  width: 100%;
+  max-width: 450px;
+  margin-right: 40px;
+}
+
 .btnPersonalizado {
- background-color: #0857a1;
+  background-color: #0857a1;
   border-color: #0857a1;
   color: white;
   font-weight: bold;
   padding: 10px;
-  width: 450px;
-  margin-left: 50px;
-  margin-right: 40px;
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto;
   border-radius: 8px;
+  display: block;
+}
 
+@media (min-width: 768px) {
+  .btnPersonalizado {
+    margin-left: 50px;
+    margin-right: 40px;
+  }
 }
 
 .btnPersonalizado:hover {
