@@ -1,0 +1,128 @@
+/* ------------------------------------------
+Wrapper y fondo
+------------------------------------------ */
+.wrapper {
+  background-color: #f9f9f9;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ------------------------------------------
+Contenedor principal
+------------------------------------------ */
+.container {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* ------------------------------------------
+Imágenes
+------------------------------------------ */
+.imagen {
+  opacity: 0;
+  animation: aparecer 1s ease-in-out forwards;
+  width: 100px;
+  display: block;
+  margin: 0 auto 10px auto;
+}
+
+@keyframes aparecer {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ------------------------------------------
+Texto descriptivo
+------------------------------------------ */
+.texto {
+  font-weight: 300;
+  margin: 5px 0 20px 0;
+  color: #c8c5c3;
+  font-family: 'Lato', sans-serif;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* ------------------------------------------
+Título
+------------------------------------------ */
+.titulo {
+  color: #0857a1;
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+/* ------------------------------------------
+Inputs de código
+------------------------------------------ */
+.code {
+  margin: 10px auto;
+  border: 4px solid #0097b2 !important;
+  border-radius: 22px;
+  height: 80px;
+  width: 60px;
+  padding: 10px;
+  color: #cecece;
+  text-align: center;
+  font-size: 36px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  display: block;
+  transition: all 0.2s ease-in-out;
+}
+
+.code::placeholder {
+  color: #cecece;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+}
+
+/* ------------------------------------------
+Responsivo: Inputs más pequeños en móviles
+------------------------------------------ */
+@media (max-width: 576px) {
+  .code {
+    width: 45px;
+    height: 70px;
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 400px) {
+  .code {
+    width: 40px;
+    height: 60px;
+    font-size: 26px;
+  }
+}
+
+/* ------------------------------------------
+Botón personalizado
+------------------------------------------ */
+.boton {
+  width: 100%;
+  background-color: #0097b2;
+  border: none;
+  color: white;
+  font-weight: bold;
+  padding: 10px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.boton:hover {
+  background-color: #007a8c;
+}

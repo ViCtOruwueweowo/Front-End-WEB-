@@ -64,7 +64,7 @@ function Profile() {
 
           <ul className="list-group list-group-horizontal-sm">
             <li className={`${style.listgroup} list-group-item ${style.temas}`}>
-              Email
+              Correo Electrónico
             </li>
             <li className={`${style.listgroup} ${style.temas2} list-group-item`}>
               safekids@gmail.com

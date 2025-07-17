@@ -16,13 +16,20 @@ import Estabishment from "../Components/Pages/Owner/Estabishment/Establishment";
 import Kinder from "../Components/Pages/Owner/Estabishment/Others/Guarderia";
 import Guarderia from "../Components/Pages/Owner/Estabishment/Others/Guarderia";
 import Primaria from "../Components/Pages/Owner/Estabishment/Others/Primaria";
-
+import RecoverEmail from "../Components/Pages/RecoverEmail/RecoverEmail";
+import RecoverCode from "../Components/Pages/RecoverCode/RecoverCode";
+import RecoverPassword from "../Components/Pages/RecoverPassword/RecoverPassword";
 export const Rutas = () => {
   return (
     <BrowserRouter>
       <Routes>
+
         <Route path="/" element={<Login />} />
-        <Route path="/secondfactor" element={<PrivateRoute2fa> <SecondFactor /> </PrivateRoute2fa> } />
+
+        <Route path="/secondfactor" element={<PrivateRoute2fa> <SecondFactor /> </PrivateRoute2fa>} />
+        <Route path="/recover-1" element={<RecoverEmail />} />
+        <Route path="/recover-2" element={<RecoverCode />} />
+        <Route path="/recover-3" element={<RecoverPassword />} />
         <Route path="/index" element={<PrivateRoute><Index /></PrivateRoute>} />
         <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
         <Route path="/create-directors" element={<PrivateRoute><Directors /></PrivateRoute>} />

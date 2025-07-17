@@ -72,7 +72,7 @@ function Login() {
                   )}
                 </div>
                 <div className={`mb-3 ${styles.links}`}>
-                  <NavLink to="/recovermail">¿Olvidaste tu contraseña?</NavLink>
+                  <NavLink to="/recover-1">¿Olvidaste tu contraseña?</NavLink>
                 </div>
 
 

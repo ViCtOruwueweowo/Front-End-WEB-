@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./SecondFactor.module.css";
+import styles from "./RecoverCode.module.css";
 import { verifyCode } from "../../../Api/Auth";
 import FullScreenLoader from "../../Layout/Loading/FullScreenLoader";
 
-function SecondFactor() {
+function RecoverCode() {
   const [codeDigits, setCodeDigits] = useState<string[]>(Array(6).fill(""));
   const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
@@ -71,7 +71,7 @@ function SecondFactor() {
           <img src="./dsadsa.png" alt="Logo" className={styles.imagen} />
 
           <div className={`${styles.titulo} ${styles.tituloEscribiendo}`}>
-            Verificación En Dos Pasos
+ Codigo De Verificación
           </div>
 
           <div className={styles.texto}>
@@ -87,15 +87,13 @@ function SecondFactor() {
           </div>
 
           {errorMsg && <div className="text-danger mt-2">{errorMsg}</div>}
-
-          <div className="row justify-content-center mt-3">
+ <div className="row justify-content-center mt-3">
             <div className="col-6">
               <button type="button" className={styles.boton} onClick={handleSubmit} disabled={loading}>
-                Ingresar
+                Enviar
               </button>
             </div>
           </div>
-
 
           <div className="row justify-content-center mt-3">
             <div className="col-6">
@@ -104,11 +102,11 @@ function SecondFactor() {
               </button>
             </div>
           </div>
-          
+
         </div>
       </div>
     </>
   );
 }
 
-export default SecondFactor;
+export default RecoverCode;
