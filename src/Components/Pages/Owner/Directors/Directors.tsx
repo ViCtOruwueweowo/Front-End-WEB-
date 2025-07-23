@@ -178,7 +178,7 @@ const handleSubmit = async (e: React.FormEvent) => {
   const handleCloseModal = () => {
     setModal(null);
     if (modal?.title === "Éxito") {
-      navigate("/secretary");
+      navigate("/directors");
     }
   };
 

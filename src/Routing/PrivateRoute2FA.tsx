@@ -9,10 +9,8 @@ const PrivateRoute2fa: React.FC<PrivateRouteProps> = ({ children }) => {
   const token = localStorage.getItem("temporaryToken");
 
   if (!token) {
-    // No hay token, redirige a login
     return <Navigate to="/" replace />;
   }
-  // Hay token, muestra la ruta protegida
   return <>{children}</>;
 };
 

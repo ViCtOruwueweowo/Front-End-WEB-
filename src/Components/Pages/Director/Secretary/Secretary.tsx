@@ -5,48 +5,6 @@ import Layout from "../../../Layout/Layout/Layout";
 import { registerUser } from "../../../../Api/Users";
 import FullScreenLoader from "../../../Layout/Loading/FullScreenLoader";
 
-function Modal({
-  title,
-  onClose,
-}: {
-  title: string;
-  onClose: () => void;
-}) {
-  return (
-    <div style={{
-      position: "fixed", top: 0, left: 0, width: "100%", height: "100%",
-      backgroundColor: "rgba(0,0,0,0.5)", display: "flex",
-      justifyContent: "center", alignItems: "center", zIndex: 10000,
-    }}>
-      <div style={{
-        backgroundColor: "white", padding: 20, borderRadius: 8,
-        width: "60%", height: "50%", textAlign: "center",
-      }}>
-        <h3 style={{ color: "#0857a1" }}>{title}</h3>
-        <div className="container">
-          <img style={{ width: "26%", height: "10%" }} src="/9.png" alt="Éxito" />
-        </div>
-        <div>
-          <button
-            className="btn"
-            onClick={onClose}
-            style={{
-              backgroundColor: "#ffffff",
-              color: "#0857a1",
-              border: "3px solid #0857a1",
-              margin: "5px",
-              width: "200px",
-            }}
-          >
-            <b>Cerrar</b>
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-
 function Secretary() {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -105,75 +63,75 @@ function Secretary() {
     return newErrors;
   };
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setErrors({});
-  setModal(null);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrors({});
+    setModal(null);
 
-  const clientSideErrors = validateFields();
-  if (Object.keys(clientSideErrors).length > 0) {
-    setErrors(clientSideErrors);
-    return;
-  }
-
-  if (formData.profilePhoto && formData.profilePhoto.size > 2 * 1024 * 1024) {
-    setErrors({ profilePhoto: "La imagen no debe superar los 2MB." });
-    return;
-  }
-
-  const token = localStorage.getItem("jwt");
-  if (!token) {
-    setModal({ title: "Error", message: "No hay sesión activa. Inicia sesión primero." });
-    return;
-  }
-
-  try {
-    setLoading(true);
-
-    const payload = {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      phone: formData.phone,
-      email: formData.email,
-      password: formData.password,
-      profilePhoto: formData.profilePhoto?.name || "",
-    };
-
-    await registerUser(payload, token);
-    setLoading(false);
-    setModal({ title: "Éxito", message: "" });
-    setFormData({
-      firstName: "",
-      lastName: "",
-      phone: "",
-      email: "",
-      password: "",
-      profilePhoto: null,
-    });
-  } catch (error: any) {
-    setLoading(false);
-    if (error.response?.status === 400 && error.response.data.errors) {
-      const backendErrors = error.response.data.errors;
-      const formatted: Record<string, string> = {};
-      for (const key in backendErrors) {
-        switch (key) {
-          case "email":
-            formatted[key] = "El correo electrónico ya está en uso.";
-            break;
-          case "password":
-            formatted[key] = "La contraseña debe tener al menos 6 caracteres.";
-            break;
-          default:
-            formatted[key] = backendErrors[key][0];
-        }
-      }
-      setErrors(formatted);
-    } else {
-      setModal({ title: "Error inesperado", message: "Ocurrió un error al registrar." });
+    const clientSideErrors = validateFields();
+    if (Object.keys(clientSideErrors).length > 0) {
+      setErrors(clientSideErrors);
+      return;
     }
-  }
-};
 
+    if (formData.profilePhoto && formData.profilePhoto.size > 2 * 1024 * 1024) {
+      setErrors({ profilePhoto: "La imagen no debe superar los 2MB." });
+      return;
+    }
+
+    const token = localStorage.getItem("jwt");
+    if (!token) {
+      setModal({ title: "Error", message: "No hay sesión activa. Inicia sesión primero." });
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const payload = {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phone: formData.phone,
+        email: formData.email,
+        password: formData.password,
+        profilePhoto: formData.profilePhoto?.name || "",
+      };
+
+      await registerUser(payload, token);
+      setLoading(false);
+      setModal({ title: "Éxito", message: "" });
+
+      setFormData({
+        firstName: "",
+        lastName: "",
+        phone: "",
+        email: "",
+        password: "",
+        profilePhoto: null,
+      });
+    } catch (error: any) {
+      setLoading(false);
+      if (error.response?.status === 400 && error.response.data.errors) {
+        const backendErrors = error.response.data.errors;
+        const formatted: Record<string, string> = {};
+        for (const key in backendErrors) {
+          switch (key) {
+            case "email":
+              formatted[key] = "El correo electrónico ya está en uso.";
+              break;
+            case "password":
+              formatted[key] = "La contraseña debe tener al menos 6 caracteres.";
+              break;
+            default:
+              formatted[key] = backendErrors[key][0];
+          }
+        }
+        setErrors(formatted);
+      } else {
+        setModal({ title: "Error inesperado", message: "Ocurrió un error al registrar." });
+      }
+    }
+  };
 
   const handleCloseModal = () => {
     setModal(null);
@@ -181,13 +139,58 @@ const handleSubmit = async (e: React.FormEvent) => {
       navigate("/secretary");
     }
   };
+
   return (
     <Layout>
       {loading && <FullScreenLoader />}
-      {modal && (
-        <Modal title={modal.title} onClose={handleCloseModal} />
+
+      {/* ✅ Modal de Éxito estilo Index_Secretary */}
+      {modal && modal.title === "Éxito" && (
+        <div
+          className={`modal fade show d-block`}
+          tabIndex={-1}
+          role="dialog"
+          style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+          aria-modal="true"
+        >
+          <div className="modal-dialog modal-dialog-centered" role="document">
+            <div className="modal-content">
+              <div className="modal-body text-center">
+                <p
+                  style={{
+                    marginTop: "15px",
+                    marginBottom: "15px",
+                    fontSize: "18px",
+                    marginLeft: "40px",
+                    marginRight: "40px",
+                    fontFamily: "Inter, sans-serif",
+                    color: "#0857a1",
+                    fontWeight: 500,
+                    textAlign: "center",
+                  }}
+                >
+                  {modal.title}
+                </p>
+
+                <img
+                  src="/9.png"
+                  alt="Éxito"
+                  className="img-fluid"
+                  style={{ maxHeight: "200px", marginBottom: "10px" }}
+                />
+
+                <div className="d-grid gap-2">
+                  <button className={styles.btnedit} onClick={handleCloseModal}>
+                    Aceptar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
+      {/* Encabezado */}
       <div
         style={{
           backgroundColor: "#0857a1",
@@ -209,60 +212,54 @@ const handleSubmit = async (e: React.FormEvent) => {
       <br />
 
       <div className="text-white d-flex justify-content-center align-items-center m-0">
-
-        <form className="row g-4" style={{ maxWidth: "900px", width: "100%" }} onSubmit={handleSubmit} >
+        <form className="row g-4" style={{ maxWidth: "900px", width: "100%" }} onSubmit={handleSubmit}>
           <div className="col-md-6">
-            <label htmlFor="firstName" className={`${styles.textLabel}`}> Nombre </label>
-            <input type="text"className="form-control" id="firstName"value={formData.firstName}onChange={handleChange} required />
-            {errors.firstName && (
-              <small className="text-danger">{errors.firstName}</small>
-            )}
+            <label htmlFor="firstName" className={`${styles.textLabel}`}>Nombre</label>
+            <input type="text" className="form-control" id="firstName" value={formData.firstName} onChange={handleChange} required />
+            {errors.firstName && <small className="text-danger">{errors.firstName}</small>}
           </div>
 
           <div className="col-md-6">
-            <label htmlFor="password" className={`${styles.textLabel}`}>Contraseña </label>
-            <input  type="password" className="form-control" id="password"value={formData.password} onChange={handleChange} required />
-            {errors.password && (
-              <small className="text-danger">{errors.password}</small>
-            )}
+            <label htmlFor="password" className={`${styles.textLabel}`}>Contraseña</label>
+            <input type="password" className="form-control" id="password" value={formData.password} onChange={handleChange} required />
+            {errors.password && <small className="text-danger">{errors.password}</small>}
           </div>
 
           <div className="col-md-6">
-            <label htmlFor="lastName" className={`${styles.textLabel}`}> Apellido </label>
-            <input type="text" className="form-control" id="lastName" value={formData.lastName} onChange={handleChange} required/>
-            {errors.lastName && (
-              <small className="text-danger">{errors.lastName}</small>
-            )}
+            <label htmlFor="lastName" className={`${styles.textLabel}`}>Apellido</label>
+            <input type="text" className="form-control" id="lastName" value={formData.lastName} onChange={handleChange} required />
+            {errors.lastName && <small className="text-danger">{errors.lastName}</small>}
           </div>
 
           <div className="col-md-6">
-            <label htmlFor="phone" className={`${styles.textLabel}`}> Teléfono</label>
-            <input  type="text"className="form-control"  id="phone" value={formData.phone} onChange={handleChange} required />
+            <label htmlFor="phone" className={`${styles.textLabel}`}>Teléfono</label>
+            <input type="text" className="form-control" id="phone" value={formData.phone} onChange={handleChange} required />
             {errors.phone && <small className="text-danger">{errors.phone}</small>}
           </div>
 
           <div className="col-md-6">
-            <label htmlFor="email" className={`${styles.textLabel}`}> Email </label>
+            <label htmlFor="email" className={`${styles.textLabel}`}>Email</label>
             <input type="email" className="form-control" id="email" value={formData.email} onChange={handleChange} required />
             {errors.email && <small className="text-danger">{errors.email}</small>}
           </div>
 
           <div className="col-md-6">
-            <label htmlFor="profilePhoto" className={`${styles.textLabel}`}> Imagen </label>
-            <input className="form-control" type="file" id="profilePhoto" accept="image/*" onChange={handleChange} required/>
-            {errors.profilePhoto && (
-              <small className="text-danger">{errors.profilePhoto}</small>
-            )}
+            <label htmlFor="profilePhoto" className={`${styles.textLabel}`}>Imagen</label>
+            <input className="form-control" type="file" id="profilePhoto" accept="image/*" onChange={handleChange} required />
+            {errors.profilePhoto && <small className="text-danger">{errors.profilePhoto}</small>}
           </div>
 
           <div className="col-12 d-flex justify-content-center align-items-center">
-            <button style={{ width: "220px",backgroundColor: "#0857a1",color: "white",margin: "10px", }}type="submit"className="btn btn-primary"disabled={loading} >
+            <button
+              style={{ width: "220px", backgroundColor: "#0857a1", color: "white", margin: "10px" }}
+              type="submit"
+              className="btn btn-primary"
+              disabled={loading}
+            >
               <b>Generar Registro</b>
             </button>
           </div>
-
         </form>
-
       </div>
     </Layout>
   );

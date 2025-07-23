@@ -1,27 +1,68 @@
-.textLabel{
-  color: #0857a1;
-    font-family: 'Montserrat', sans-serif;
-  text-shadow: 2px 3px 1px rgba(255, 255, 255, 0.5);
+/* ----------------------------------------
+   Estilo para etiquetas de texto (labels)
+----------------------------------------- */
+.textLabel {
+  color: #0857a1; /* Azul institucional */
+  font-family: 'Montserrat', sans-serif;
+  text-shadow: 2px 3px 1px rgba(255, 255, 255, 0.5); /* Sombra blanca suave */
 }
 
-.textTable{
-  color: #0857a1;
+/* ----------------------------------------
+   Estilo para texto en tablas principales
+----------------------------------------- */
+.textTable {
+  color: #0857a1; /* Azul institucional */
   text-align: center;
-   font-weight: 900;
+  font-weight: 900; /* Negrita intensa */
   font-family: 'Montserrat', sans-serif;
 }
 
-
-.textTable2{
+/* ----------------------------------------
+   Estilo para texto en tablas secundarias
+----------------------------------------- */
+.textTable2 {
   text-align: center;
-   font-weight: 500;
+  font-weight: 500; /* Negrita media */
   font-family: 'Montserrat', sans-serif;
 }
 
-.btn:hover{
-   background-color: white;
-    color: #0857a1;
-    margin-block-start: 10px;
-    font-size: 16px;
-    border: 5px solid #0857a1;
+/* ----------------------------------------
+   Estilo para botón de editar (normal)
+----------------------------------------- */
+.btnedit {
+  background-color: white;
+  color: #0857a1;
+  font-size: 15px;
+  font-family: 'Montserrat', sans-serif;
+  padding: 5px 15px;
+  margin-top: 0px;
+  margin-block-start: 10px;
+  border: 5px solid #0857a1;
+  border-radius: 5px;
+}
+
+/* ----------------------------------------
+   Estilo para botón de editar (hover)
+----------------------------------------- */
+.btnedit:hover {
+  background-color: #0857a1;
+  color: #ffffff;
+  font-size: 16px;
+  padding: 10px 20px;
+  margin-top: 5px;
+  margin-block-start: 10px;
+  border: 5px solid #0857a1;
+  border-radius: 10px;
+}
+
+/* ----------------------------------------
+   Estilo general para botón (hover)
+   (Usado por otras clases .btn)
+----------------------------------------- */
+.btn:hover {
+  background-color: white;
+  color: #0857a1;
+  font-size: 16px;
+  margin-block-start: 10px;
+  border: 5px solid #0857a1;
 }

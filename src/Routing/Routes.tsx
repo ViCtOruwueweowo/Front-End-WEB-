@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import PrivateRoute2fa from "./PrivateRoute2FA";
+import PrivateRouteRecover from "./RecoverRoute";
 
 // Importa tus componentes de páginas
 import Login from "../Components/Pages/Login/Login";
@@ -28,8 +29,8 @@ export const Rutas = () => {
 
         <Route path="/secondfactor" element={<PrivateRoute2fa> <SecondFactor /> </PrivateRoute2fa>} />
         <Route path="/recover-1" element={<RecoverEmail />} />
-        <Route path="/recover-2" element={<RecoverCode />} />
-        <Route path="/recover-3" element={<RecoverPassword />} />
+        <Route path="/recover-2" element={<PrivateRouteRecover><RecoverCode /></PrivateRouteRecover>} />
+        <Route path="/recover-3" element={<PrivateRouteRecover><RecoverPassword /></PrivateRouteRecover>} />
         <Route path="/index" element={<PrivateRoute><Index /></PrivateRoute>} />
         <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
         <Route path="/create-directors" element={<PrivateRoute><Directors /></PrivateRoute>} />
