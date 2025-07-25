@@ -14,9 +14,28 @@ export const verifyCode = async (
   code: string,
   temporaryToken: string
 ) => {
-  const res = await axios.post(VERIFY_URL, {
-    code,
-    temporaryToken,
-  });
-  return res.data;
+  try {
+    const res = await axios.post(VERIFY_URL, {
+      code,
+      temporaryToken,
+    });
+    return res.data;
+  } catch (error: any) {
+    if (error.response) {
+      return {
+        success: false,
+        message: error.response.data.message || "Código incorrecto o expirado.",
+      };
+    } else if (error.request) {
+      return {
+        success: false,
+        message: "No se pudo conectar con el servidor.",
+      };
+    } else {
+      return {
+        success: false,
+        message: "Ocurrió un error inesperado.",
+      };
+    }
+  }
 };

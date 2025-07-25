@@ -1,14 +1,47 @@
-// src/Api/Secretary.ts
+
 import axios from "axios";
+export interface SchoolType {
+  id: number;
+  type: string;
+  type_name: string;
+}
+
+export interface School {
+  id: number;
+  name: string;
+  address: string;
+  phone: string;
+  city: string;
+  status: boolean;
+  school_types: SchoolType[];
+  total_types: number;
+  school_user_id: number;
+}
 
 export interface Director {
-  id:string;
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  profilePhoto?: string;
+  status: boolean;
+  roleId: number;
+  createdBy: number;
+  userRoleId: number;
+  userRoleStatus: boolean;
+  school: School;
+}
+
+export interface Director {
+  id:number;
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
   
 }
+
 //Ver Directores
 export async function fetchDirector(token: string | null): Promise<Director[]> {
   if (!token) return [];
@@ -31,7 +64,7 @@ export async function fetchDirector(token: string | null): Promise<Director[]> {
 
 // Editar Director
 export async function editDirector(
-  id: string,
+  id: number,
   email: string,
   phone: string,
   token: string | null
@@ -53,7 +86,7 @@ export async function editDirector(
 }
 
 // Eliminar Director
-export async function deleteDirector(id: string, token: string | null): Promise<boolean> {
+export async function deleteDirector(id: number, token: string | null): Promise<boolean> {
   if (!token) return false;
 
   try {

@@ -12,14 +12,13 @@ import {
 function Index_Secretary() {
   const [secretaries, setSecretaries] = useState<Secretary[]>([]);
   const [loading, setLoading] = useState(true);
-
   const [modalEditar, setModalEditar] = useState<Secretary | null>(null);
   const [modalEliminar, setModalEliminar] = useState<Secretary | null>(null);
-
   const [editEmail, setEditEmail] = useState("");
   const [editPhone, setEditPhone] = useState("");
-
   const [modalExito, setModalExito] = useState<string | null>(null);
+  const [emailError, setEmailError] = useState<string | null>(null);
+  const [phoneError, setPhoneError] = useState<string | null>(null);
 
   const mostrarModalExito = (mensaje: string) => {
     setModalExito(mensaje);
@@ -28,7 +27,6 @@ function Index_Secretary() {
   // Paginación
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
-
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentSecretaries = secretaries.slice(indexOfFirstItem, indexOfLastItem);
@@ -48,11 +46,40 @@ function Index_Secretary() {
     if (modalEditar) {
       setEditEmail(modalEditar.email);
       setEditPhone(modalEditar.phone);
+      setEmailError(null);
+      setPhoneError(null);
     }
   }, [modalEditar]);
 
+  const validateForm = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const onlyNumbersRegex = /^\d+$/;
+    let valid = true;
+
+    if (!emailRegex.test(editEmail)) {
+      setEmailError("Correo electrónico no tiene un formato válido.");
+      valid = false;
+    } else {
+      setEmailError(null);
+    }
+
+    if (!onlyNumbersRegex.test(editPhone)) {
+      setPhoneError("Teléfono debe contener solo números.");
+      valid = false;
+    } else if (editPhone.length < 10) {
+      setPhoneError("Teléfono debe tener mínimo 10 dígitos.");
+      valid = false;
+    } else {
+      setPhoneError(null);
+    }
+
+    return valid;
+  };
+
   const handleGuardarCambios = async () => {
     if (!modalEditar) return;
+    if (!validateForm()) return;
+
     const token = localStorage.getItem("jwt");
     const success = await editSecretary(modalEditar.id, editEmail, editPhone, token);
 
@@ -62,7 +89,7 @@ function Index_Secretary() {
       );
       setSecretaries(actualizadas);
       setModalEditar(null);
-      mostrarModalExito("Accion Exitosa");
+      mostrarModalExito("Acción Exitosa");
     } else {
       alert("Error al actualizar secretaria");
     }
@@ -77,7 +104,7 @@ function Index_Secretary() {
       const actualizadas = secretaries.filter((s) => s.id !== modalEliminar.id);
       setSecretaries(actualizadas);
       setModalEliminar(null);
-      mostrarModalExito("Accion Exitosa");
+      mostrarModalExito("Acción Exitosa");
     } else {
       alert("No se pudo eliminar la secretaria.");
     }
@@ -85,64 +112,39 @@ function Index_Secretary() {
 
   const renderPagination = () => {
     return (
-      <nav className="d-flex justify-content-center">
-        <ul className="pagination">
-          {Array.from({ length: totalPages }, (_, i) => (
-            <li
-              key={i}
-              className={`page-item ${currentPage === i + 1 ? "active" : ""}`}
-            >
-              <button className="page-link" onClick={() => setCurrentPage(i + 1)}>
-                {i + 1}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      <div className={styles.pagination}>
+        <span>Página</span>
+        {Array.from({ length: totalPages }, (_, i) => (
+          <span
+            key={i}
+            className={`${styles["page-number"]} ${currentPage === i + 1 ? styles.active : ""}`}
+            onClick={() => setCurrentPage(i + 1)}
+          >
+            {i + 1}
+          </span>
+        ))}
+      </div>
     );
   };
 
   return (
     <Layout>
-      {/* Título */}
-      <div
-        style={{
-          backgroundColor: "#0857a1",
-          width: "100%",
-          height: "90px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "flex-end",
-        }}
-        className="text-white m-0"
-      >
+      <div style={{ backgroundColor: "#0857a1", width: "100%", height: "90px", display: "flex", justifyContent: "center", alignItems: "flex-end", }} className="text-white m-0">
         <h5 style={{ fontWeight: 100, marginBottom: "10px", marginTop: 0 }}>
-          Gestion De Secretarias
+          Gestión De Secretarias
         </h5>
       </div>
 
       <br />
 
-      {/* Botón Añadir */}
       <div className="d-flex justify-content-end">
-        <Link
-          to="/create-secretary"
-          className="btn"
-          style={{
-            backgroundColor: "#ffffff",
-            color: "#0857a1",
-            border: "3px solid #0857a1",
-            margin: "5px",
-            width: "200px"
-          }}
-        >
+        <Link to="/create-secretary" className="btn" style={{ backgroundColor: "#ffffff", color: "#0857a1", border: "3px solid #0857a1", margin: "5px", width: "200px" }}>
           <b>Añadir Secretaria</b>
         </Link>
       </div>
 
       <br />
 
-      {/* Tabla */}
       <div className="d-flex justify-content-center">
         {loading ? (
           <p>Cargando secretarias...</p>
@@ -151,46 +153,28 @@ function Index_Secretary() {
             <table className="table table-bordered">
               <thead>
                 <tr>
-                  <th className={styles.textTable} style={{ color: "#256ea1" }}>
-                    <b>Secretaria</b>
-                  </th>
-                  <th className={styles.textTable} style={{ color: "#256ea1" }}>
-                    <b>Correo Electrónico</b>
-                  </th>
-                  <th className={styles.textTable} style={{ color: "#256ea1" }}>
-                    <b>Teléfono</b>
-                  </th>
-                  <th className={styles.textTable} style={{ color: "#256ea1" }}>
-                    <b>Opciones</b>
-                  </th>
+                  <th className={styles.textTable} style={{ color: "#256ea1" }}><b>Secretaria</b></th>
+                  <th className={styles.textTable} style={{ color: "#256ea1" }}><b>Correo Electrónico</b></th>
+                  <th className={styles.textTable} style={{ color: "#256ea1" }}><b>Teléfono</b></th>
+                  <th className={styles.textTable} style={{ color: "#256ea1" }}><b>Opciones</b></th>
                 </tr>
               </thead>
               <tbody className="text-center">
                 {currentSecretaries.length === 0 ? (
                   <tr>
-                    <td colSpan={4} className={styles.textTable2}>
-                      No se encontraron secretarias.
-                    </td>
+                    <td colSpan={4} className={styles.textTable2}>No se encontraron secretarias.</td>
                   </tr>
                 ) : (
                   currentSecretaries.map((sec, index) => (
                     <tr key={index}>
-                      <td className={styles.textTable2}>
-                        {sec.firstName} {sec.lastName}
-                      </td>
+                      <td className={styles.textTable2}>{sec.firstName} {sec.lastName}</td>
                       <td className={styles.textTable2}>{sec.email}</td>
                       <td className={styles.textTable2}>{sec.phone}</td>
                       <td>
-                        <button
-                          className="btn btn-link p-0 me-2"
-                          onClick={() => setModalEditar(sec)}
-                        >
+                        <button className={`btn btn-link p-0 me-2 ${styles.iconHover}`} onClick={() => setModalEditar(sec)}>
                           <img src="/6.png" alt="Editar" style={{ width: "25px", height: "25px" }} />
                         </button>
-                        <button
-                          className="btn btn-link p-0"
-                          onClick={() => setModalEliminar(sec)}
-                        >
+                        <button className={`btn btn-link p-0 ${styles.iconHover}`} onClick={() => setModalEliminar(sec)}>
                           <img src="/5.png" alt="Eliminar" style={{ width: "25px", height: "25px" }} />
                         </button>
                       </td>
@@ -205,158 +189,76 @@ function Index_Secretary() {
       </div>
 
       {/* Modal Editar */}
-      <div
-        className={`modal fade ${modalEditar ? "show d-block" : ""}`}
-        tabIndex={-1}
-        role="dialog"
-        style={{ backgroundColor: modalEditar ? "rgba(0,0,0,0.5)" : "transparent" }}
-        aria-modal={modalEditar ? "true" : "false"}
-      >
-        <div className="modal-dialog modal-dialog-centered" role="document">
-
+      <div className={`modal fade ${modalEditar ? "show d-block" : ""}`} tabIndex={-1} style={{ backgroundColor: modalEditar ? "rgba(0,0,0,0.5)" : "transparent" }} aria-modal={modalEditar ? "true" : "false"}>
+        <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
-
-            <h3
-              className="modal-title"
-              style={{
-                marginBottom: "10px",
-                fontFamily: "Inter, sans-serif",
-                textShadow: "2px 2px 1px rgba(8, 87, 161, 0.44)",
-                color: "#0857a1",
-                fontWeight: 600,
-                textAlign: "center",
-              }}
-            >
+            <h3 className="modal-title text-center" style={{ margin: "10px 0", color: "#0857a1", fontWeight: 600 }}>
               Editar
             </h3>
-
             <div className="modal-body">
-              {modalEditar && (
-                <>
-                  <form>
-                    <div className="mb-3" style={{ marginBottom: "10px" }}>
-                      <label htmlFor="email" className="form-label"
-                        style={{ color: "#0857a1", fontWeight: 400, fontFamily: "'Montserrat', sans-serif" }}>Correo electrónico</label>
-                      <input
-                        type="email"
-                        className="form-control"
-                        id="email"
-                        value={editEmail}
-                        onChange={(e) => setEditEmail(e.target.value)}
-                      />
-                    </div>
-                    <div className="mb-3" style={{ marginBottom: "10px" }}>
-                      <label htmlFor="phone" className="form-label"
-                        style={{ color: "#0857a1", fontWeight: 400, fontFamily: "'Montserrat', sans-serif" }}>Teléfono</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="phone"
-                        maxLength={10}
-                        value={editPhone}
-                        onChange={(e) => setEditPhone(e.target.value)}
-                      />
-                    </div>
-                  </form>
-                </>
-              )}
-
+              <form>
+                <div className="mb-3">
+                  <label className="form-label" style={{ color: "#0857a1" }}>Correo electrónico</label>
+                  <input
+                    type="email"
+                    className={`form-control ${emailError ? "is-invalid" : ""}`}
+                    value={editEmail}
+                    onChange={(e) => setEditEmail(e.target.value)}
+                  />
+                  {emailError && <div className="invalid-feedback">{emailError}</div>}
+                </div>
+                <div className="mb-3">
+                  <label className="form-label" style={{ color: "#0857a1" }}>Teléfono</label>
+                  <input
+                    type="text"
+                    maxLength={10}
+                    className={`form-control ${phoneError ? "is-invalid" : ""}`}
+                    value={editPhone}
+                    onChange={(e) => setEditPhone(e.target.value)}
+                  />
+                  {phoneError && <div className="invalid-feedback">{phoneError}</div>}
+                </div>
+              </form>
               <div className="d-grid gap-2">
-                <button className={`${styles.btnedit}`} onClick={handleGuardarCambios}><b>Enviar</b></button>
-                <button className={`${styles.btnedit}`} onClick={() => setModalEditar(null)}>Cancelar</button>
+                <button className={styles.btnedit} onClick={handleGuardarCambios}><b>Enviar</b></button>
+                <button className={styles.btnedit} onClick={() => setModalEditar(null)}>Cancelar</button>
               </div>
             </div>
-
           </div>
         </div>
       </div>
 
       {/* Modal Eliminar */}
-      <div
-        className={`modal fade ${modalEliminar ? "show d-block" : ""}`}
-        tabIndex={-1}
-        role="dialog"
-        style={{ backgroundColor: modalEliminar ? "rgba(0,0,0,0.5)" : "transparent" }}
-        aria-modal={modalEliminar ? "true" : "false"}
-      >
-        <div className="modal-dialog modal-dialog-centered" role="document">
+      <div className={`modal fade ${modalEliminar ? "show d-block" : ""}`} tabIndex={-1} style={{ backgroundColor: modalEliminar ? "rgba(0,0,0,0.5)" : "transparent" }} aria-modal={modalEliminar ? "true" : "false"}>
+        <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
-
-            <h5 style={{
-              marginTop: "15px",
-              marginBottom: "15px",
-              fontSize: "18px",
-              marginLeft: "40px",
-              marginRight: "40px",
-              fontFamily: "Inter, sans-serif",
-              color: "#0857a1",
-              fontWeight: 300,
-              textAlign: "center",
-            }}>¿Estas Seguro De Emprender La Siguiente Accion?</h5>
-
+            <h5 className={`${styles.modale}`}>¿Estás seguro de emprender la siguiente acción?</h5>
             <div className="modal-body">
               {modalEliminar && (
                 <p style={{ color: "#0857a1", fontSize: "20px" }}>
-                  Eliminar a:{" "}
-                  <span style={{ color: "black" }}>
-                    {modalEliminar.firstName} {modalEliminar.lastName}
-                  </span>
-                  ?
+                  Eliminar a: <span style={{ color: "black" }}>{modalEliminar.firstName} {modalEliminar.lastName}</span>?
                 </p>
               )}
               <div className="d-grid gap-2">
-                <button className={`${styles.btnedit}`} onClick={handleEliminarSecretaria}>Eliminar Secretaria</button>
-                <button className={`${styles.btnedit}`} onClick={() => setModalEliminar(null)}>Cancelar</button>
+                <button className={styles.btnedit} onClick={handleEliminarSecretaria}>Eliminar Secretaria</button>
+                <button className={styles.btnedit} onClick={() => setModalEliminar(null)}>Cancelar</button>
               </div>
             </div>
-
           </div>
         </div>
       </div>
 
-      {/* ✅ Modal de Éxito */}
-      <div
-        className={`modal fade ${modalExito ? "show d-block" : ""}`}
-        tabIndex={-1}
-        role="dialog"
-        style={{
-          backgroundColor: modalExito ? "rgba(0,0,0,0.5)" : "transparent",
-        }}
-        aria-modal={modalExito ? "true" : "false"}
-      >
-        <div className="modal-dialog modal-dialog-centered" role="document">
+      {/* Modal Éxito */}
+      <div className={`modal fade ${modalExito ? "show d-block" : ""}`} tabIndex={-1} style={{ backgroundColor: modalExito ? "rgba(0,0,0,0.5)" : "transparent" }} aria-modal={modalExito ? "true" : "false"}>
+        <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-body text-center">
-              <p
-                style={{
-                  marginTop: "15px",
-                  marginBottom: "15px",
-                  fontSize: "18px",
-                  marginLeft: "40px",
-                  marginRight: "40px",
-                  fontFamily: "Inter, sans-serif",
-                  color: "#0857a1",
-                  fontWeight: 500,
-                  textAlign: "center",
-                }}
-              >
-                {modalExito}
-              </p>
-
-              <img
-                src="./9.png"
-                alt="Éxito"
-                className="img-fluid"
-                style={{ maxHeight: "200px", marginBottom: "10px" }}
-              />
-
+              <p className={styles.letra}>{modalExito}</p>
+              <img src="./9.png" alt="Éxito" className="img-fluid" style={{ maxHeight: "200px", marginBottom: "10px" }} />
               <div className="d-grid gap-2">
-                <button className={`${styles.btnedit}`} onClick={() => setModalExito(null)}>
-                  Aceptar
-                </button>
+                <button className={styles.btnedit} onClick={() => setModalExito(null)}>Aceptar</button>
               </div>
             </div>
-
           </div>
         </div>
       </div>

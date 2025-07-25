@@ -21,10 +21,12 @@ function Index_Director() {
 
   const [modalExito, setModalExito] = useState<string | null>(null);
   const mostrarModalExito = (mensaje: string) => setModalExito(mensaje);
+  const [emailError, setEmailError] = useState("");
+  const [phoneError, setPhoneError] = useState("");
 
   // Paginación
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 7;
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -49,7 +51,30 @@ function Index_Director() {
   }, [modalEditar]);
 
   const handleGuardarCambios = async () => {
-    if (!modalEditar) return;
+    let valid = true;
+    setEmailError("");
+    setPhoneError("");
+
+    // Validación del correo
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(editEmail)) {
+      setEmailError("Correo inválido. Debe tener formato correo@dominio.com");
+      valid = false;
+    }
+
+    // Validación del teléfono
+    const phoneRegex = /^\d{10}$/;
+    if (!phoneRegex.test(editPhone)) {
+      if (!/^\d+$/.test(editPhone)) {
+        setPhoneError("El teléfono solo debe contener números.");
+      } else {
+        setPhoneError("El teléfono debe tener exactamente 10 dígitos.");
+      }
+      valid = false;
+    }
+
+    if (!valid || !modalEditar) return;
+
     const token = localStorage.getItem("jwt");
     const success = await editDirector(modalEditar.id, editEmail, editPhone, token);
 
@@ -80,22 +105,21 @@ function Index_Director() {
     }
   };
 
-  const renderPagination = () => (
-    <nav className="d-flex justify-content-center">
-      <ul className="pagination">
-        {Array.from({ length: totalPages }, (_, i) => (
-          <li
-            key={i}
-            className={`page-item ${currentPage === i + 1 ? "active" : ""}`}
-          >
-            <button className="page-link" onClick={() => setCurrentPage(i + 1)}>
-              {i + 1}
-            </button>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  );
+const renderPagination = () => (
+  <div className={styles.pagination}>
+    <span>Página</span>
+    {Array.from({ length: totalPages }, (_, i) => (
+      <span
+        key={i}
+        className={`${styles.pageNumber} ${currentPage === i + 1 ? styles.pageNumberActive : ""}`}
+        onClick={() => setCurrentPage(i + 1)}
+      >
+        {i + 1}
+      </span>
+    ))}
+  </div>
+);
+
 
   return (
     <Layout>
@@ -175,12 +199,12 @@ function Index_Director() {
                       </td>
                       <td className={styles.textTable2}>{dir.email}</td>
                       <td className={styles.textTable2}>{dir.phone}</td>
-                      <td className={styles.textTable2}>No disponible</td>
+                      <td className={styles.textTable2}>{dir.school ? dir.school.name : 'Sin escuela asignada'}</td>
                       <td>
-                        <button className="btn btn-link p-0 me-2" onClick={() => setModalEditar(dir)}>
+                        <button className={`${styles.textTable2} btn btn-link p-0  me-2 ${styles.iconHover}`} onClick={() => setModalEditar(dir)}>
                           <img src="/6.png" alt="Editar" style={{ width: "25px", height: "25px" }} />
                         </button>
-                        <button className="btn btn-link p-0" onClick={() => setModalEliminar(dir)}>
+                        <button className={`${styles.textTable2} btn btn-link p-0 ${styles.iconHover}`} onClick={() => setModalEliminar(dir)}>
                           <img src="/5.png" alt="Eliminar" style={{ width: "25px", height: "25px" }} />
                         </button>
                       </td>
@@ -217,6 +241,7 @@ function Index_Director() {
                       value={editEmail}
                       onChange={(e) => setEditEmail(e.target.value)}
                     />
+                    {emailError && <div className="text-danger mt-1">{emailError}</div>}
                   </div>
                   <div className="mb-3">
                     <label htmlFor="phone" className="form-label" style={{ color: "#0857a1" }}>Teléfono</label>
@@ -228,6 +253,7 @@ function Index_Director() {
                       value={editPhone}
                       onChange={(e) => setEditPhone(e.target.value)}
                     />
+                    {phoneError && <div className="text-danger mt-1">{phoneError}</div>}
                   </div>
                 </form>
               )}

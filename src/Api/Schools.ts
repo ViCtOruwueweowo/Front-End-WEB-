@@ -6,7 +6,7 @@ export interface CreateSchoolPayload {
   phone: string;
   city: string;
   school_types: number[];
-  director_id: string | null;
+  director_id: number | null;  // Cambiado a number | null
 }
 
 export async function createSchool(
@@ -18,6 +18,8 @@ export async function createSchool(
   }
 
   try {
+    console.log("Enviando payload a API:", payload); // Log para revisar payload
+
     const response = await fetch("http://127.0.0.1:8000/api1/schools/create", {
       method: "POST",
       headers: {

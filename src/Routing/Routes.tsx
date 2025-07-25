@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import PrivateRoute2fa from "./PrivateRoute2FA";
 import PrivateRouteRecover from "./RecoverRoute";
+import RedirectIfAuthenticated from "./Authenticate";
 
 // Importa tus componentes de páginas
 import Login from "../Components/Pages/Login/Login";
@@ -20,14 +21,15 @@ import Primaria from "../Components/Pages/Owner/Estabishment/Others/Primaria";
 import RecoverEmail from "../Components/Pages/RecoverEmail/RecoverEmail";
 import RecoverCode from "../Components/Pages/RecoverCode/RecoverCode";
 import RecoverPassword from "../Components/Pages/RecoverPassword/RecoverPassword";
+import EditarPrimaria from "../Components/Pages/Owner/Estabishment/Others/EditEstablishment";
 export const Rutas = () => {
   return (
     <BrowserRouter>
       <Routes>
 
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<RedirectIfAuthenticated> <Login /> </RedirectIfAuthenticated> } />
 
-        <Route path="/secondfactor" element={<PrivateRoute2fa> <SecondFactor /> </PrivateRoute2fa>} />
+        <Route path="/secondfactor" element={<RedirectIfAuthenticated> <PrivateRoute2fa> <SecondFactor /> </PrivateRoute2fa></RedirectIfAuthenticated>} />
         <Route path="/recover-1" element={<RecoverEmail />} />
         <Route path="/recover-2" element={<PrivateRouteRecover><RecoverCode /></PrivateRouteRecover>} />
         <Route path="/recover-3" element={<PrivateRouteRecover><RecoverPassword /></PrivateRouteRecover>} />
@@ -38,7 +40,7 @@ export const Rutas = () => {
         <Route path="/create-establishment" element={<PrivateRoute><Estabishment /></PrivateRoute>} />
         <Route path="/establishment" element={<PrivateRoute><Index_Establishment /></PrivateRoute>} />
         <Route path="/primaria" element={<PrivateRoute><Primaria /></PrivateRoute>} />
-        <Route path="/guarderia" element={<PrivateRoute><Guarderia /></PrivateRoute>} />
+        <Route path="/primaria/editar/:id" element={<PrivateRoute><EditarPrimaria /></PrivateRoute>} />        <Route path="/guarderia" element={<PrivateRoute><Guarderia /></PrivateRoute>} />
         <Route path="/kinder" element={<PrivateRoute><Kinder /></PrivateRoute>} />
         <Route path="/secretary" element={<PrivateRoute><Index_Secretary /></PrivateRoute>} />
         <Route path="/create-secretary" element={<PrivateRoute><Secretary /></PrivateRoute>} />

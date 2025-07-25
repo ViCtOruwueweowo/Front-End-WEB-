@@ -1,10 +1,9 @@
-// src/Components/Pages/RecoverEmail/RecoverEmail.tsx
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./RecoverCode.module.css";
 import { sendRecoveryEmail } from "../../../Api/RecoverAccount";
 import FullScreenLoader from "../../Layout/Loading/FullScreenLoader";
+
 function RecoverEmail() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -15,7 +14,10 @@ function RecoverEmail() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    setMessage("");
+    setSuccess(null);
     setLoading(true);
+
     try {
       const response = await sendRecoveryEmail(email);
 
@@ -26,9 +28,25 @@ function RecoverEmail() {
         localStorage.setItem("recoverEmail", email);
         navigate("/recover-2");
       }
-    } catch (error) {
+    } catch (error: any) {
+      if (error.response) {
+        const status = error.response.status;
+        const msg = error.response.data?.message || "";
+
+        if (status === 400 && msg === "Email is required and must be valid") {
+          setMessage("Debes ingresar un correo electrónico válido.");
+        } else if (status === 404 && msg === "User not found") {
+          setMessage("El correo electrónico no está registrado.");
+        } else if (status === 500 && msg === "Server failed") {
+          setMessage("Error del servidor. Intenta más tarde.");
+        } else {
+          setMessage("Ocurrió un error inesperado. Intenta más tarde.");
+        }
+      } else {
+        setMessage("No se pudo conectar al servidor.");
+      }
+
       setSuccess(false);
-      setMessage("Error de servidor. Inténtalo más tarde.");
     } finally {
       setLoading(false);
     }
@@ -57,13 +75,15 @@ function RecoverEmail() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  disabled={loading}
                 />
-
-                {message && (
-                  <div className={`alert ${success ? "alert-success" : "alert-danger"}`}>
-                    {message}
-                  </div>
-                )}
+                <div className="d-grid">
+                  {message && (
+                    <div className={`alert alert-danger ${styles.alerta}`} role="alert">
+                      {message}
+                    </div>
+                  )}
+                </div>
 
                 <div className="d-grid">
                   <button
@@ -75,6 +95,7 @@ function RecoverEmail() {
                   </button>
                 </div>
               </form>
+
             </div>
           </div>
         </div>

@@ -42,13 +42,12 @@ export const verifyCode = async (code: string) => {
 
 // src/Api/RecoverAccount.ts
 
-export const changePassword = async (resetToken: string, newPassword: string) => {
+export const changePassword = async (resetToken: string, password: string) => {
   try {
     const response = await axios.post("http://127.0.0.1:8000/api1/users/change-password", {
       resetToken,
-      newPassword,
+      password
     });
-
     return response.data;
   } catch (error: any) {
     if (error.response) {
@@ -56,8 +55,7 @@ export const changePassword = async (resetToken: string, newPassword: string) =>
     } else {
       return {
         success: false,
-        message: "No se pudo conectar con el servidor",
-        timestamp: new Date(),
+        message: "Error de red o servidor",
       };
     }
   }

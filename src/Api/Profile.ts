@@ -14,3 +14,21 @@ export const getMyProfile = async () => {
 
   return response.data;
 };
+
+export const changePassword = async (password: string) => {
+  const token = localStorage.getItem("jwt");
+
+  if (!token) throw new Error("Token no encontrado");
+
+  const response = await axios.post(
+    "http://127.0.0.1:8000/api1/users/new-password",
+    { password },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return response.data;
+};
