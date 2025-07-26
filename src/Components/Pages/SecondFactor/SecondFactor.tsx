@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./SecondFactor.module.css";
-import { verifyCode } from "../../../Api/Auth";
+import { verifyCode, resend2FACode } from "../../../Api/Auth";
 import FullScreenLoader from "../../Layout/Loading/FullScreenLoader";
 
 function SecondFactor() {
@@ -24,6 +24,27 @@ function SecondFactor() {
       }
     }
   };
+
+  const handleResend = async () => {
+  if (!temporaryToken) {
+    setErrorMsg("Token temporal no encontrado. Vuelve a iniciar sesión.");
+    return;
+  }
+
+  setErrorMsg("");
+  setLoading(true);
+
+  try {
+    const data = await resend2FACode(temporaryToken);
+    if (!data.success) {
+      setErrorMsg(data.message || "No se pudo reenviar el código.");
+    }
+  } catch (error: any) {
+    setErrorMsg("Ocurrió un error al reenviar el código.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleSubmit = async () => {
     const code = codeDigits.join("");
@@ -99,9 +120,10 @@ function SecondFactor() {
 
           <div className="row justify-content-center mt-3">
             <div className="col-6">
-              <button type="button" className={styles.boton} onClick={handleSubmit} disabled={loading}>
-                Reenviar Codigo
-              </button>
+          <button type="button" className={styles.boton} onClick={handleResend} disabled={loading}>
+  Reenviar Código
+</button>
+
             </div>
           </div>
           

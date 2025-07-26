@@ -39,3 +39,29 @@ export const verifyCode = async (
     }
   }
 };
+
+const RESEND_URL = "http://127.0.0.1:8000/api1/users/resend-2fa";
+
+export const resend2FACode = async (temporaryToken: string) => {
+  try {
+    const res = await axios.post(RESEND_URL, { temporaryToken });
+    return res.data;
+  } catch (error: any) {
+    if (error.response) {
+      return {
+        success: false,
+        message: error.response.data.message || "No se pudo reenviar el código.",
+      };
+    } else if (error.request) {
+      return {
+        success: false,
+        message: "No se pudo conectar con el servidor.",
+      };
+    } else {
+      return {
+        success: false,
+        message: "Ocurrió un error inesperado.",
+      };
+    }
+  }
+};
