@@ -18,7 +18,7 @@ export interface RefreshResponse {
 
 export async function refreshToken(token: string): Promise<RefreshResponse> {
   try {
-    const response = await fetch("http://127.0.0.1:8000/api1/users/refresh-token", {
+    const response = await fetch("https://apidev.safekids.site/api1/users/refresh-token", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

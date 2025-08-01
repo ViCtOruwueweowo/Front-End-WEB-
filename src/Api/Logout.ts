@@ -18,7 +18,7 @@ export const logoutUser = async (): Promise<void> => {
 
   try {
     await axios.post(
-      "http://127.0.0.1:8000/api1/users/logout",
+      "https://apidev.safekids.site/api1/users/logout",
       {}, // cuerpo vacío
       {
         headers: {

@@ -15,7 +15,7 @@ export async function fetchSecretaries(token: string | null): Promise<Secretary[
   if (!token) return [];
 
   try {
-    const res = await axios.get("http://127.0.0.1:8000/api1/users/type/4", {
+    const res = await axios.get("https://apidev.safekids.site/api1/users/type/4", {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -41,7 +41,7 @@ export async function editSecretary(
 
   try {
     const res = await axios.put(
-      `http://127.0.0.1:8000/api1/users/edit/${id}`,
+      `https://apidev.safekids.site/api1/users/edit/${id}`,
       { email, phone },
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -58,7 +58,7 @@ export async function deleteSecretary(id: string, token: string | null): Promise
   if (!token) return false;
 
   try {
-    const res = await axios.delete(`http://127.0.0.1:8000/api1/users/delete/${id}`, {
+    const res = await axios.delete(`https://apidev.safekids.site/api1/users/delete/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 

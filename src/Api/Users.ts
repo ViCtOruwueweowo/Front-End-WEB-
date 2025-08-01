@@ -1,24 +1,16 @@
 import axios from "axios";
 
-interface RegisterPayload {
-  firstName: string;
-  lastName: string;
-  phone: string;
-  email: string;
-  password: string;
-  profilePhoto: string; // base64
-}
-
-export const registerUser = async (payload: RegisterPayload, token: string) => {
+export const registerUser = async (formData: FormData, token: string) => {
   const response = await axios.post(
-    "http://127.0.0.1:8000/api1/users/register",
-    payload,
+    "https://apidev.safekids.site/api1/users/register",
+    formData,
     {
       headers: {
-        "Content-Type": "application/json",
+        // No pongas 'Content-Type', axios lo configura automáticamente
         Authorization: `Bearer ${token}`,
       },
     }
   );
+
   return response.data;
 };

@@ -6,7 +6,7 @@ export const getMyProfile = async () => {
 
   if (!token) throw new Error("Token no encontrado");
 
-  const response = await axios.get("http://127.0.0.1:8000/api1/users/my-profile", {
+  const response = await axios.get("https://apidev.safekids.site/api1/users/my-profile", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -21,7 +21,7 @@ export const changePassword = async (password: string) => {
   if (!token) throw new Error("Token no encontrado");
 
   const response = await axios.post(
-    "http://127.0.0.1:8000/api1/users/new-password",
+    "https://apidev.safekids.site/api1/users/new-password",
     { password },
     {
       headers: {

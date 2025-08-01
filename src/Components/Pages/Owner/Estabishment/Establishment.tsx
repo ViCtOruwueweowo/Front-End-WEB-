@@ -36,17 +36,13 @@ function Estabishment() {
     loadDirectors();
   }, [token]);
 
-  const customOptions = directors.map((director) => ({
-    value: director.id,
-    label: (
-      <div>
-        <div style={{ fontWeight: "bold" }}>
-          {director.firstName} {director.lastName}
-        </div>
-        <div style={{ fontSize: "0.9em", color: "#777" }}>{director.email}</div>
-      </div>
-    ),
-  }));
+
+  
+const customOptions = directors.map((director) => ({
+  value: director.id,
+  label: `${director.firstName} ${director.lastName} - ${director.email}`, // string simple
+}));
+
 
   // Función actualizada con las claves correctas
   const mapTypesToNumbers = () => {

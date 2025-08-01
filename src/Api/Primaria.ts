@@ -43,7 +43,7 @@ export interface School {
 }
 
 export async function fetchPrimaria(token: string | null): Promise<School[]> {
-  const res = await fetch("http://127.0.0.1:8000/api1/schools", {
+  const res = await fetch("https://apidev.safekids.site/api1/schools", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -61,7 +61,7 @@ export async function fetchPrimaria(token: string | null): Promise<School[]> {
 }
 
 export async function fetchPrimariaById(id: number, token: string | null): Promise<School> {
-  const res = await fetch(`http://127.0.0.1:8000/api1/schools/${id}`, {
+  const res = await fetch(`https://apidev.safekids.site/api1/schools/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -77,7 +77,7 @@ export async function fetchPrimariaById(id: number, token: string | null): Promi
 }
 
 export async function deletePrimariaById(id: number, token: string | null) {
-  const res = await fetch(`http://127.0.0.1:8000/api1/schools/delete/${id}`, {
+  const res = await fetch(`https://apidev.safekids.site/api1/schools/delete/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -105,10 +105,11 @@ export interface UpdateSchoolPayload {
 
 export async function updatePrimaria(
   id: number,
-  payload: any,
+  payload: UpdateSchoolPayload,
   token: string
-): Promise<{ success: boolean; message?: string }> {
-  const response = await fetch(`http://127.0.0.1:8000/api1/schools/edit/${id}`, {
+)
+: Promise<{ success: boolean; message?: string }> {
+  const response = await fetch(`https://apidev.safekids.site/api1/schools/edit/${id}`, {
     method: "PUT", // o PATCH, según backend
     headers: {
       "Content-Type": "application/json",

@@ -40,7 +40,7 @@ export interface School {
 }
 
 export async function fetchGuarderias(token: string | null): Promise<School[]> {
-  const res = await fetch("http://127.0.0.1:8000/api1/schools", {
+  const res = await fetch("https://apidev.safekids.site/api1/schools", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -58,7 +58,7 @@ export async function fetchGuarderias(token: string | null): Promise<School[]> {
 }
 
 export async function fetchGuarderiaById(id: number, token: string | null): Promise<School> {
-  const res = await fetch(`http://127.0.0.1:8000/api1/schools/${id}`, {
+  const res = await fetch(`https://apidev.safekids.site/api1/schools/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -74,7 +74,7 @@ export async function fetchGuarderiaById(id: number, token: string | null): Prom
 }
 
 export async function deleteGuarderiaById(id: number, token: string | null) {
-  const res = await fetch(`http://127.0.0.1:8000/api1/schools/delete/${id}`, {
+  const res = await fetch(`https://apidev.safekids.site/api1/schools/delete/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,

@@ -46,7 +46,6 @@ function Modal({
   );
 }
 
-
 function Directors() {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -105,75 +104,76 @@ function Directors() {
     return newErrors;
   };
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setErrors({});
-  setModal(null);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrors({});
+    setModal(null);
 
-  const clientSideErrors = validateFields();
-  if (Object.keys(clientSideErrors).length > 0) {
-    setErrors(clientSideErrors);
-    return;
-  }
-
-  if (formData.profilePhoto && formData.profilePhoto.size > 2 * 1024 * 1024) {
-    setErrors({ profilePhoto: "La imagen no debe superar los 2MB." });
-    return;
-  }
-
-  const token = localStorage.getItem("jwt");
-  if (!token) {
-    setModal({ title: "Error", message: "No hay sesión activa. Inicia sesión primero." });
-    return;
-  }
-
-  try {
-    setLoading(true);
-
-    const payload = {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      phone: formData.phone,
-      email: formData.email,
-      password: formData.password,
-      profilePhoto: formData.profilePhoto?.name || "", // ⬅️ solo el nombre
-    };
-
-    await registerUser(payload, token);
-    setLoading(false);
-    setModal({ title: "Éxito", message: "" });
-    setFormData({
-      firstName: "",
-      lastName: "",
-      phone: "",
-      email: "",
-      password: "",
-      profilePhoto: null,
-    });
-  } catch (error: any) {
-    setLoading(false);
-    if (error.response?.status === 400 && error.response.data.errors) {
-      const backendErrors = error.response.data.errors;
-      const formatted: Record<string, string> = {};
-      for (const key in backendErrors) {
-        switch (key) {
-          case "email":
-            formatted[key] = "El correo electrónico ya está en uso.";
-            break;
-          case "password":
-            formatted[key] = "La contraseña debe tener al menos 6 caracteres.";
-            break;
-          default:
-            formatted[key] = backendErrors[key][0];
-        }
-      }
-      setErrors(formatted);
-    } else {
-      setModal({ title: "Error inesperado", message: "Ocurrió un error al registrar." });
+    const clientSideErrors = validateFields();
+    if (Object.keys(clientSideErrors).length > 0) {
+      setErrors(clientSideErrors);
+      return;
     }
-  }
-};
 
+    if (formData.profilePhoto && formData.profilePhoto.size > 2 * 1024 * 1024) {
+      setErrors({ profilePhoto: "La imagen no debe superar los 2MB." });
+      return;
+    }
+
+    const token = localStorage.getItem("jwt");
+    if (!token) {
+      setModal({ title: "Error", message: "No hay sesión activa. Inicia sesión primero." });
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const formToSend = new FormData();
+      formToSend.append("firstName", formData.firstName);
+      formToSend.append("lastName", formData.lastName);
+      formToSend.append("phone", formData.phone);
+      formToSend.append("email", formData.email);
+      formToSend.append("password", formData.password);
+      if (formData.profilePhoto) {
+        formToSend.append("profilePhoto", formData.profilePhoto);
+      }
+
+      await registerUser(formToSend, token);
+
+      setLoading(false);
+      setModal({ title: "Éxito", message: "" });
+      setFormData({
+        firstName: "",
+        lastName: "",
+        phone: "",
+        email: "",
+        password: "",
+        profilePhoto: null,
+      });
+    } catch (error: any) {
+      setLoading(false);
+      if (error.response?.status === 400 && error.response.data.errors) {
+        const backendErrors = error.response.data.errors;
+        const formatted: Record<string, string> = {};
+        for (const key in backendErrors) {
+          switch (key) {
+            case "email":
+              formatted[key] = "El correo electrónico ya está en uso.";
+              break;
+            case "password":
+              formatted[key] = "La contraseña debe tener al menos 6 caracteres.";
+              break;
+            default:
+              formatted[key] = backendErrors[key][0];
+          }
+        }
+        setErrors(formatted);
+      } else {
+        setModal({ title: "Error inesperado", message: "Ocurrió un error al registrar." });
+      }
+    }
+  };
 
   const handleCloseModal = () => {
     setModal(null);
@@ -185,9 +185,7 @@ const handleSubmit = async (e: React.FormEvent) => {
   return (
     <Layout>
       {loading && <FullScreenLoader />}
-      {modal && (
-        <Modal title={modal.title} onClose={handleCloseModal} />
-      )}
+      {modal && <Modal title={modal.title} onClose={handleCloseModal} />}
 
       <div
         style={{
@@ -210,60 +208,59 @@ const handleSubmit = async (e: React.FormEvent) => {
       <br />
 
       <div className="text-white d-flex justify-content-center align-items-center m-0">
-
-        <form className="row g-4" style={{ maxWidth: "900px", width: "100%" }} onSubmit={handleSubmit} >
+        <form className="row g-4" style={{ maxWidth: "900px", width: "100%" }} onSubmit={handleSubmit}>
           <div className="col-md-6">
-            <label htmlFor="firstName" className={`${styles.textLabel}`}> Nombre </label>
-            <input type="text"className="form-control" id="firstName"value={formData.firstName}onChange={handleChange} required />
-            {errors.firstName && (
-              <small className="text-danger">{errors.firstName}</small>
-            )}
+            <label htmlFor="firstName" className={styles.textLabel}>Nombre</label>
+            <input type="text" className="form-control" id="firstName" value={formData.firstName} onChange={handleChange} required />
+            {errors.firstName && <small className="text-danger">{errors.firstName}</small>}
           </div>
 
           <div className="col-md-6">
-            <label htmlFor="password" className={`${styles.textLabel}`}>Contraseña </label>
-            <input  type="password" className="form-control" id="password"value={formData.password} onChange={handleChange} required />
-            {errors.password && (
-              <small className="text-danger">{errors.password}</small>
-            )}
+            <label htmlFor="password" className={styles.textLabel}>Contraseña</label>
+            <input type="password" className="form-control" id="password" value={formData.password} onChange={handleChange} required />
+            {errors.password && <small className="text-danger">{errors.password}</small>}
           </div>
 
           <div className="col-md-6">
-            <label htmlFor="lastName" className={`${styles.textLabel}`}> Apellido </label>
-            <input type="text" className="form-control" id="lastName" value={formData.lastName} onChange={handleChange} required/>
-            {errors.lastName && (
-              <small className="text-danger">{errors.lastName}</small>
-            )}
+            <label htmlFor="lastName" className={styles.textLabel}>Apellido</label>
+            <input type="text" className="form-control" id="lastName" value={formData.lastName} onChange={handleChange} required />
+            {errors.lastName && <small className="text-danger">{errors.lastName}</small>}
           </div>
 
           <div className="col-md-6">
-            <label htmlFor="phone" className={`${styles.textLabel}`}> Teléfono</label>
-            <input  type="text"className="form-control"  id="phone" value={formData.phone} onChange={handleChange} required />
+            <label htmlFor="phone" className={styles.textLabel}>Teléfono</label>
+            <input type="text" className="form-control" id="phone" value={formData.phone} onChange={handleChange} required />
             {errors.phone && <small className="text-danger">{errors.phone}</small>}
           </div>
 
           <div className="col-md-6">
-            <label htmlFor="email" className={`${styles.textLabel}`}> Email </label>
+            <label htmlFor="email" className={styles.textLabel}>Email</label>
             <input type="email" className="form-control" id="email" value={formData.email} onChange={handleChange} required />
             {errors.email && <small className="text-danger">{errors.email}</small>}
           </div>
 
           <div className="col-md-6">
-            <label htmlFor="profilePhoto" className={`${styles.textLabel}`}> Imagen </label>
-            <input className="form-control" type="file" id="profilePhoto" accept="image/*" onChange={handleChange} required/>
-            {errors.profilePhoto && (
-              <small className="text-danger">{errors.profilePhoto}</small>
-            )}
+            <label htmlFor="profilePhoto" className={styles.textLabel}>Imagen</label>
+            <input className="form-control" type="file" id="profilePhoto" accept="image/*" onChange={handleChange} required />
+            {errors.profilePhoto && <small className="text-danger">{errors.profilePhoto}</small>}
           </div>
 
           <div className="col-12 d-flex justify-content-center align-items-center">
-            <button style={{ width: "220px",backgroundColor: "#0857a1",color: "white",margin: "10px", }}type="submit"className="btn btn-primary"disabled={loading} >
+            <button
+              style={{
+                width: "220px",
+                backgroundColor: "#0857a1",
+                color: "white",
+                margin: "10px",
+              }}
+              type="submit"
+              className="btn btn-primary"
+              disabled={loading}
+            >
               <b>Generar Registro</b>
             </button>
           </div>
-
         </form>
-
       </div>
     </Layout>
   );
