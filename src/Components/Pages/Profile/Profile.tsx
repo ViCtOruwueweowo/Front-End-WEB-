@@ -132,12 +132,14 @@ function Profile() {
       </div>
 
       <br />
+      <br />
+      
 
       <div className={`${style.contenedorUser}`}>
         <h4 className={`${style.principal}`}>Mi Información</h4>
 
         <div className="container">
-          <ul className="list-group list-group-horizontal">
+          <ul className="list-group list-group-horizontal-sm">
             <li className={`${style.listgroup} list-group-item ${style.temas}`}>Nombre</li>
             <li className={`${style.listgroup} ${style.temas2} list-group-item`}>
               {userData?.firstName || "-"}

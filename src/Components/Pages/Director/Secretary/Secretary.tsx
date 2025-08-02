@@ -208,7 +208,7 @@ function Secretary() {
       <br />
 
       <div className="text-white d-flex justify-content-center align-items-center m-0">
-        <form className="row g-4" style={{ maxWidth: "900px", width: "100%" }} onSubmit={handleSubmit}>
+        <form className="row g-5" style={{ maxWidth: "90%", width: "100%" }} onSubmit={handleSubmit}>
           <div className="col-md-6">
             <label htmlFor="firstName" className={styles.textLabel}>Nombre</label>
             <input type="text" className="form-control" id="firstName" value={formData.firstName} onChange={handleChange} required />

@@ -200,7 +200,7 @@ const customOptions = directors.map((director) => ({
       <br />
 
       <div className="d-flex justify-content-center">
-        <form className="row g-4" style={{ maxWidth: "900px", width: "100%" }} onSubmit={handleSubmit}>
+        <form className="row g-5" style={{ maxWidth: "90%", width: "100%"}} onSubmit={handleSubmit}>
           <div className="col-md-6">
             <label htmlFor="name" className={`${styles.textLabel} from-label`}>
               Nombre
@@ -258,25 +258,27 @@ const customOptions = directors.map((director) => ({
             <label htmlFor="director" className={`${styles.textLabel} from-label`}>
               Asignar Director
             </label>
-            <Select
-              id="director"
-              options={customOptions}
-              onChange={setSelectedDirector}
-              placeholder="Seleccionar Director"
-              value={selectedDirector}
-              styles={{
-                control: (base) => ({
-                  ...base,
-                  borderColor: "#ced4da",
-                  boxShadow: "none",
-                  minHeight: "38px",
-                }),
-                menu: (base) => ({
-                  ...base,
-                  zIndex: 9999,
-                }),
-              }}
-            />
+          <Select
+  id="director"
+  options={customOptions}
+  onChange={setSelectedDirector}
+  placeholder="Seleccionar Director"
+  value={selectedDirector}
+  styles={{
+    control: (base) => ({
+      ...base,
+      borderColor: "#ced4da",
+      boxShadow: "none",
+      minHeight: "38px",
+    }),
+    menu: (base) => ({
+      ...base,
+      zIndex: 9999,
+      maxHeight: 76, // aprox. 2 opciones * 38px cada una
+      overflowY: "auto",
+    }),
+  }}
+/>
             {errors.director && <small className="text-danger">{errors.director}</small>}
           </div>
 

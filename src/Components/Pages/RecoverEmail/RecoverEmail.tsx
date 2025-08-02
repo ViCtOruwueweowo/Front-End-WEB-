@@ -67,35 +67,31 @@ function RecoverEmail() {
               <h2 className={styles.tituloEscribiendo}>Recuperación</h2>
               <p className={styles.tituloEscribiendo}>Favor de ingresar tu correo registrado</p>
 
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} className={styles.formulario}>
                 <input
                   type="email"
-                  className={`form-control mb-3 ${styles.inputs}`}
+                  className={`form-control ${styles.inputs}`}
                   placeholder="Correo Electrónico"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={loading}
                 />
-                <div className="d-grid">
-                  {message && (
-                    <div className={`alert alert-danger ${styles.alerta}`} role="alert">
-                      {message}
-                    </div>
-                  )}
-                </div>
 
-                <div className="d-grid">
-                  <button
-                    type="submit"
-                    className={`btn ${styles.btnPersonalizado}`}
-                    disabled={loading}
-                  >
-                    <b>{loading ? "Enviando..." : "Enviar"}</b>
-                  </button>
-                </div>
+                {message && (
+                  <div className={`alert alert-danger ${styles.alerta}`} role="alert">
+                    {message}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  className={`btn ${styles.btnPersonalizado}`}
+                  disabled={loading}
+                >
+                  <b>{loading ? "Enviando..." : "Enviar"}</b>
+                </button>
               </form>
-
             </div>
           </div>
         </div>

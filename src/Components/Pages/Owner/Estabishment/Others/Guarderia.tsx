@@ -88,7 +88,7 @@ function Guarderia() {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div>
+    <div style={{ padding: '10px' }}>
       <div className="table-responsive w-100">
         <table className="table table-bordered w-100">
           <thead>

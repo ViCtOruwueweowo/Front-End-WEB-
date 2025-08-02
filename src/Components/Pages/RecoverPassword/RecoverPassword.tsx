@@ -43,7 +43,6 @@ function RecoverPassword() {
       return;
     }
 
-    // Éxito: limpia token y redirige
     localStorage.removeItem("resetToken");
     setLoading(false);
     setTimeout(() => {
@@ -66,10 +65,10 @@ function RecoverPassword() {
               <h2 className={styles.tituloEscribiendo}>Recuperar</h2>
               <h2 className={styles.tituloEscribiendo}>Contraseña</h2>
 
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} className={styles.formulario}>
                 <input
                   type="password"
-                  className={`form-control mb-3 ${styles.inputs}`}
+                  className={`form-control ${styles.inputs}`}
                   placeholder="Nueva Contraseña"
                   required
                   value={password}
@@ -78,7 +77,7 @@ function RecoverPassword() {
 
                 <input
                   type="password"
-                  className={`form-control mb-3 ${styles.inputs}`}
+                  className={`form-control ${styles.inputs}`}
                   placeholder="Confirmar Contraseña"
                   required
                   value={confirmPassword}
@@ -86,16 +85,14 @@ function RecoverPassword() {
                 />
 
                 {success === false && message && (
-                  <div className="alert alert-danger">
+                  <div className={`alert alert-danger ${styles.alerta}`}>
                     {message}
                   </div>
                 )}
 
-                <div className="d-grid">
-                  <button type="submit" className={`btn ${styles.btnPersonalizado}`}>
-                    <b>Enviar</b>
-                  </button>
-                </div>
+                <button type="submit" className={`btn ${styles.btnPersonalizado}`}>
+                  <b>Enviar</b>
+                </button>
               </form>
             </div>
           </div>

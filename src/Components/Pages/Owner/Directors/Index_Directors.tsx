@@ -163,8 +163,8 @@ const renderPagination = () => (
         {loading ? (
           <p>Cargando directores...</p>
         ) : (
-          <div className="table-responsive" style={{ width: "100%" }}>
-            <table className="table table-bordered">
+         <div className="table-responsive" style={{ width: "100%" }}>
+  <table className="table table-bordered">
               <thead>
                 <tr>
                   <th className={styles.textTable} style={{ color: "#256ea1" }}>
