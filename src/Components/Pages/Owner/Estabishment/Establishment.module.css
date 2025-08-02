@@ -14,3 +14,8 @@
     padding: 0.4rem;
   }
 }
+
+ .btn {
+    width: 100% !important;
+    max-width: none !important;
+  }

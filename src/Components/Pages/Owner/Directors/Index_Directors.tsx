@@ -105,35 +105,25 @@ function Index_Director() {
     }
   };
 
-const renderPagination = () => (
-  <div className={styles.pagination}>
-    <span>Página</span>
-    {Array.from({ length: totalPages }, (_, i) => (
-      <span
-        key={i}
-        className={`${styles.pageNumber} ${currentPage === i + 1 ? styles.pageNumberActive : ""}`}
-        onClick={() => setCurrentPage(i + 1)}
-      >
-        {i + 1}
-      </span>
-    ))}
-  </div>
-);
+  const renderPagination = () => (
+    <div className={styles.pagination}>
+      <span>Página</span>
+      {Array.from({ length: totalPages }, (_, i) => (
+        <span
+          key={i}
+          className={`${styles.pageNumber} ${currentPage === i + 1 ? styles.pageNumberActive : ""}`}
+          onClick={() => setCurrentPage(i + 1)}
+        >
+          {i + 1}
+        </span>
+      ))}
+    </div>
+  );
 
 
   return (
     <Layout>
-      <div
-        style={{
-          backgroundColor: "#0857a1",
-          width: "100%",
-          height: "90px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "flex-end",
-        }}
-        className="text-white m-0"
-      >
+      <div style={{backgroundColor: "#0857a1",width: "100%", height: "90px", display: "flex", justifyContent: "center", alignItems: "flex-end", }} className="text-white m-0">
         <h5 style={{ fontWeight: 100, marginBottom: "10px", marginTop: 0 }}>
           Gestion De Directores
         </h5>
@@ -142,17 +132,7 @@ const renderPagination = () => (
       <br />
 
       <div className="d-flex justify-content-end">
-        <Link
-          to="/create-directors"
-          className="btn"
-          style={{
-            backgroundColor: "#ffffff",
-            color: "#0857a1",
-            border: "3px solid #0857a1",
-            margin: "5px",
-            width: "200px",
-          }}
-        >
+        <Link to="/create-directors" className="btn"  style={{backgroundColor: "#ffffff", color: "#0857a1", border: "3px solid #0857a1", margin: "5px", width: "200px",}} >
           <b>Añadir Director</b>
         </Link>
       </div>
@@ -163,8 +143,8 @@ const renderPagination = () => (
         {loading ? (
           <p>Cargando directores...</p>
         ) : (
-         <div className="table-responsive" style={{ width: "100%" }}>
-  <table className="table table-bordered">
+          <div className="table-responsive" style={{ width: "100%" }}>
+            <table className="table table-bordered">
               <thead>
                 <tr>
                   <th className={styles.textTable} style={{ color: "#256ea1" }}>
@@ -219,48 +199,35 @@ const renderPagination = () => (
       </div>
 
       {/* Modal Editar */}
-      <div
-        className={`modal fade ${modalEditar ? "show d-block" : ""}`}
-        tabIndex={-1}
-        role="dialog"
-        style={{ backgroundColor: modalEditar ? "rgba(0,0,0,0.5)" : "transparent" }}
-        aria-modal={modalEditar ? "true" : "false"}
-      >
+      <div className={`modal fade ${modalEditar ? "show d-block" : ""}`}
+        tabIndex={-1} role="dialog" style={{ backgroundColor: modalEditar ? "rgba(0,0,0,0.5)" : "transparent" }}aria-modal={modalEditar ? "true" : "false"} >
         <div className="modal-dialog modal-dialog-centered" role="document">
           <div className="modal-content">
             <h3 className="modal-title text-center" style={{ color: "#0857a1", fontWeight: 600 }}>Editar</h3>
             <div className="modal-body">
               {modalEditar && (
                 <form>
+
                   <div className="mb-3">
                     <label htmlFor="email" className="form-label" style={{ color: "#0857a1" }}>Correo electrónico</label>
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="email"
-                      value={editEmail}
-                      onChange={(e) => setEditEmail(e.target.value)}
-                    />
+                    <input type="email" className="form-control"id="email" value={editEmail} onChange={(e) => setEditEmail(e.target.value)}/>
                     {emailError && <div className="text-danger mt-1">{emailError}</div>}
                   </div>
+
                   <div className="mb-3">
                     <label htmlFor="phone" className="form-label" style={{ color: "#0857a1" }}>Teléfono</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="phone"
-                      maxLength={10}
-                      value={editPhone}
-                      onChange={(e) => setEditPhone(e.target.value)}
-                    />
+                    <input type="text"className="form-control" id="phone" maxLength={10}value={editPhone} onChange={(e) => setEditPhone(e.target.value)} />
                     {phoneError && <div className="text-danger mt-1">{phoneError}</div>}
                   </div>
+
                 </form>
               )}
+
               <div className="d-grid gap-2">
                 <button className={styles.btnedit} onClick={handleGuardarCambios}><b>Enviar</b></button>
                 <button className={styles.btnedit} onClick={() => setModalEditar(null)}>Cancelar</button>
               </div>
+
             </div>
           </div>
         </div>
@@ -279,9 +246,7 @@ const renderPagination = () => (
             <h5 className="text-center" style={{ color: "#0857a1", marginTop: 15 }}>¿Estas Seguro De Emprender La Siguiente Accion?</h5>
             <div className="modal-body">
               {modalEliminar && (
-                <p style={{ color: "#0857a1", fontSize: "20px" }}>
-                  Eliminar a: <span style={{ color: "black" }}>{modalEliminar.firstName} {modalEliminar.lastName}</span>?
-                </p>
+                <p style={{ color: "#0857a1", fontSize: "20px" }}> Eliminar a: <span style={{ color: "black" }}>{modalEliminar.firstName} {modalEliminar.lastName}</span>? </p>
               )}
               <div className="d-grid gap-2">
                 <button className={styles.btnedit} onClick={handleEliminarDirector}>Eliminar Director</button>
@@ -303,8 +268,8 @@ const renderPagination = () => (
         <div className="modal-dialog modal-dialog-centered" role="document">
           <div className="modal-content">
             <div className="modal-body text-center">
-              <p style={{ fontSize: "18px", color: "#0857a1", fontWeight: 500 }}>{modalExito}</p>
-              <img src="./9.png" alt="Éxito" className="img-fluid" style={{ maxHeight: "200px", marginBottom: "10px" }} />
+              <p style={{ fontSize: "20px", color: "#0857a1", fontWeight: 500 }}>{modalExito}</p>
+              <img src="./9.png" alt="Éxito" className="img-fluid" style={{ maxHeight: "30vh", marginBottom: "1%" }} />
               <div className="d-grid gap-2">
                 <button className={styles.btnedit} onClick={() => setModalExito(null)}>Aceptar</button>
               </div>

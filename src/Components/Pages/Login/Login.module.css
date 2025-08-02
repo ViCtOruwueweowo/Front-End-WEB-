@@ -1,37 +1,23 @@
-/* ------------------------------------------
-Estilos globales
------------------------------------------- */
+/* Estilos globales */
+
 .wrapper {
-  background-color: #0857a1;
+  background-color: #0857a1; 
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* ------------------------------------------
-Animaciones
------------------------------------------- */
-@keyframes typing {
-  from {
-    width: 0
-  }
+/* Animaciones */
 
-  to {
-    width: 100%
-  }
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
 }
 
 @keyframes blink {
-
-  0%,
-  100% {
-    border-color: transparent
-  }
-
-  50% {
-    border-color: white
-  }
+  0%, 100% { border-color: transparent; }
+  50% { border-color: white; }
 }
 
 .tituloEscribiendo {
@@ -44,9 +30,8 @@ Animaciones
     blink 0.5s step-end 0.5s 3 forwards;
 }
 
-/* ------------------------------------------
-Estructura visual de secciones
------------------------------------------- */
+/* Estructura visual de secciones */
+
 .pagina {
   border-radius: 10px;
   height: 80vh;
@@ -65,9 +50,9 @@ Estructura visual de secciones
   justify-content: center;
 }
 
-/* ------------------------------------------
-Tipografía y títulos
------------------------------------------- */
+/*  Tipografía y títulos */
+
+
 .titulo {
   color: white;
   text-align: center;
@@ -75,6 +60,7 @@ Tipografía y títulos
   font-family: 'Montserrat', sans-serif;
   text-shadow: 2px 3px 1px rgba(255, 255, 255, 0.5);
 }
+
 
 h2 {
   text-align: start;
@@ -85,6 +71,7 @@ h2 {
   text-shadow: 2px 3px 1px rgba(8, 87, 161, 0.672);
 }
 
+
 p {
   margin-left: 5%;
   margin-bottom: 20px;
@@ -92,38 +79,32 @@ p {
   font-family: 'Lato', sans-serif;
 }
 
-@media (min-width: 768px) {
-  h2 {
-    margin-left: 80px;
-  }
 
-  p {
-    margin-left: 80px;
-  }
+@media (min-width: 768px) {
+  h2 { margin-left: 80px; }
+  p  { margin-left: 80px; }
 }
 
-/* ------------------------------------------
-Imágenes
------------------------------------------- */
+/*  Imágenes */
+
 .imagen {
   height: 240px;
   text-align: center;
 }
 
-/* ------------------------------------------
-Botones e inputs
------------------------------------------- */
+/*  Botones e inputs */
 
 .alerta {
   background-color: #e09191;
   color: white;
   font-weight: 400;
   font-family: 'Montserrat', sans-serif;
-  margin-left: 50px;
   width: 100%;
   max-width: 450px;
+  margin-left: 50px;
   margin-right: 40px;
 }
+
 
 .btnPersonalizado {
   background-color: #0857a1;
@@ -138,6 +119,7 @@ Botones e inputs
   display: block;
 }
 
+
 @media (min-width: 768px) {
   .btnPersonalizado {
     margin-left: 50px;
@@ -145,11 +127,13 @@ Botones e inputs
   }
 }
 
+
 .btnPersonalizado:hover {
   background-color: #0857a1;
   border-color: #0857a1;
   color: white;
 }
+
 
 .inputs {
   width: 100%;
@@ -164,12 +148,13 @@ Botones e inputs
   font-family: 'Lato', sans-serif;
 }
 
-/* ------------------------------------------
- Enlaces
------------------------------------------- */
+/*  Enlaces */
+
+
 a {
-  color: #38b6ff;
+  color: #38b6ff; 
 }
+
 
 .links {
   text-align: right;
@@ -177,20 +162,23 @@ a {
   max-width: 450px;
 }
 
-/* ...todo tu código existente... */
+/* Formularios*/
+
 
 .formulario {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem; /* Espaciado uniforme entre elementos */
+  gap: 1rem;
 }
+
 
 .inputs,
 .btnPersonalizado {
   width: 100%;
   max-width: 450px;
 }
+
 
 .alerta {
   background-color: #e09191;
@@ -200,6 +188,7 @@ a {
   width: 100%;
   max-width: 450px;
 }
+
 
 .links {
   width: 100%;

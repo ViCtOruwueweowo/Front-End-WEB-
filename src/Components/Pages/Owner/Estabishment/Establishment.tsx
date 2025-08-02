@@ -170,7 +170,7 @@ const customOptions = directors.map((director) => ({
                 </p>
                 <img src="/9.png" alt="Resultado" className="img-fluid" style={{ maxHeight: "200px", marginBottom: "10px" }} />
                 <div className="d-grid gap-2">
-                  <button className="btn btn-primary" onClick={handleCloseModal}>
+                  <button  className="btn btn-primary" onClick={handleCloseModal}>
                     Aceptar
                   </button>
                 </div>

@@ -19,6 +19,9 @@ function Guarderia() {
   const [modalError, setModalError] = useState<string | null>(null);
   const [modalEliminar, setModalEliminar] = useState<School | null>(null);
 
+  // Estado para modal éxito
+  const [modalExito, setModalExito] = useState<string | null>(null);
+
   // Paginación
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 7;
@@ -55,7 +58,8 @@ function Guarderia() {
 
     deleteGuarderiaById(modalEliminar.id, token)
       .then(() => {
-        alert("Guardería eliminada correctamente");
+        // Mostrar modal de éxito en vez de alert
+        setModalExito("Guardería eliminada correctamente");
         setSchools(prev => prev.filter(s => s.id !== modalEliminar.id));
         setModalEliminar(null);
       })
@@ -208,6 +212,45 @@ function Guarderia() {
           </div>
         </div>
       )}
+
+      {/* Modal de Éxito */}
+      {modalExito && (
+        <div
+          className={`modal fade show d-block`}
+          tabIndex={-1}
+          role="dialog"
+          style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+          aria-modal="true"
+        >
+          <div className="modal-dialog modal-dialog-centered" role="document">
+            <div className="modal-content">
+              <div className="modal-body text-center">
+                <p
+                  style={{
+                    fontSize: "20px",
+                    color: "#0857a1",
+                    fontWeight: 500,
+                  }}
+                >
+                  {modalExito}
+                </p>
+                <img
+                  src="./9.png"
+                  alt="Éxito"
+                  className="img-fluid"
+                  style={{ maxHeight: "30vh", marginBottom: "1%" }}
+                />
+                <div className="d-grid gap-2">
+                  <button className={styles.btnedit} onClick={() => setModalExito(null)}>
+                    Aceptar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

@@ -2,18 +2,18 @@
    Estilo para etiquetas de texto (labels)
 ----------------------------------------- */
 .textLabel {
-  color: #0857a1; /* Azul institucional */
+  color: #0857a1;
   font-family: 'Montserrat', sans-serif;
-  text-shadow: 2px 3px 1px rgba(255, 255, 255, 0.5); /* Sombra blanca suave */
+  text-shadow: 2px 3px 1px rgba(255, 255, 255, 0.5);
 }
 
 /* ----------------------------------------
    Estilo para texto en tablas principales
 ----------------------------------------- */
 .textTable {
-  color: #0857a1; /* Azul institucional */
+  color: #0857a1;
   text-align: center;
-  font-weight: 900; /* Negrita intensa */
+  font-weight: 900;
   font-family: 'Montserrat', sans-serif;
 }
 
@@ -22,7 +22,7 @@
 ----------------------------------------- */
 .textTable2 {
   text-align: center;
-  font-weight: 500; /* Negrita media */
+  font-weight: 500;
   font-family: 'Montserrat', sans-serif;
 }
 
@@ -57,7 +57,6 @@
 
 /* ----------------------------------------
    Estilo general para botón (hover)
-   (Usado por otras clases .btn)
 ----------------------------------------- */
 .btn:hover {
   background-color: white;
@@ -66,6 +65,7 @@
   margin-block-start: 10px;
   border: 5px solid #0857a1;
 }
+
 .iconHover {
   width: 25px;
   height: 25px;
@@ -77,27 +77,30 @@
   filter: brightness(1.2);
   cursor: pointer;
 }
+
 .pagination {
-  margin-top: auto;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
   background-color: #0056A5;
   color: white;
-  padding: 8px;
+  padding: 10px 16px;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .pageNumber {
   background-color: white;
   color: #0056A5;
-  padding: 2px 8px;
+  padding: 4px 10px;
   border-radius: 4px;
   font-weight: bold;
   cursor: pointer;
   user-select: none;
+  transition: background-color 0.3s;
 }
 
 .pageNumber:hover {
@@ -107,4 +110,71 @@
 .pageNumberActive {
   background-color: #003d7a;
   color: white;
+}
+
+@media (max-width: 576px) {
+  .pagination {
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+  }
+
+  .pagination span:first-child {
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+
+  .pageNumber {
+    padding: 6px 12px;
+    font-size: 14px;
+    width: 100%;
+    max-width: 120px;
+  }
+}
+
+
+/* -------------------------
+   Responsividad
+------------------------- */
+@media (max-width: 768px) {
+  .textTable,
+  .textTable2 {
+    font-size: 12px;
+    padding: 4px;
+  }
+
+  .btnedit {
+    font-size: 13px;
+    padding: 5px 10px;
+    border-width: 3px;
+  }
+
+  .btnedit:hover {
+    font-size: 14px;
+    padding: 6px 12px;
+    border-width: 3px;
+  }
+
+  .pagination {
+    font-size: 13px;
+  }
+
+  .pageNumber {
+    padding: 4px 6px;
+    font-size: 13px;
+  }
+
+  .iconHover {
+    width: 20px;
+    height: 20px;
+  }
+
+  .modal-dialog {
+    margin: 0 10px;
+  }
+
+  .btn {
+    width: 100% !important;
+    max-width: none !important;
+  }
 }

@@ -24,7 +24,7 @@ function Modal({
       }}>
         <h3 style={{ color: "#0857a1" }}>{title}</h3>
         <div className="container">
-          <img style={{ width: "26%", height: "10%" }} src="/9.png" alt="Éxito" />
+          <img style={{ width: "30vh", height: "1%" }} src="/9.png" alt="Éxito" />
         </div>
         <div>
           <button

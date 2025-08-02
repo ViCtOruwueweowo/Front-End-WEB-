@@ -62,25 +62,13 @@ function Login() {
               <p className={styles.tituloEscribiendo}>Favor de llenar los campos solicitados</p>
 
               <form onSubmit={handleSubmit} className={styles.formulario}>
-                <input
-                  type="email"
-                  className={`form-control ${styles.inputs}`}
-                  placeholder="Correo Electrónico"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  disabled={loading}
-                />
+                <input type="email"className={`form-control ${styles.inputs}`}
+                  placeholder="Correo Electrónico"value={email} onChange={(e) => setEmail(e.target.value)}
+                  required disabled={loading} />
 
-                <input
-                  type="password"
-                  className={`form-control ${styles.inputs}`}
-                  placeholder="Contraseña"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  disabled={loading}
-                />
+                <input type="password" className={`form-control ${styles.inputs}`} placeholder="Contraseña"
+                  value={password} onChange={(e) => setPassword(e.target.value)}
+                  required disabled={loading} />
 
                 {errorMsg && (
                   <div className={`alert alert-danger ${styles.alerta}`} role="alert">
@@ -92,13 +80,10 @@ function Login() {
                   <NavLink to="/recover-1">¿Olvidaste tu contraseña?</NavLink>
                 </div>
 
-                <button
-                  type="submit"
-                  className={`btn ${styles.btnPersonalizado}`}
-                  disabled={loading}
-                >
+                <button type="submit" className={`btn ${styles.btnPersonalizado}`} disabled={loading}>
                   <b>Ingresar</b>
                 </button>
+                
               </form>
             </div>
           </div>
