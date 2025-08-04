@@ -7,11 +7,21 @@
   text-shadow: 2px 3px 1px rgba(255, 255, 255, 0.5);
 }
 
+.table-hover tbody tr:hover {
+  background-color: #f0c040 !important; /* Cambia este color al que desees */
+  color: #000000 !important; /* Opcional, para cambiar el color del texto al hacer hover */
+}
+
+.customHover tbody tr:hover {
+  background-color: #f0c040 !important; /* el color que quieres */
+  color: #000000 !important;
+}
 /* ----------------------------------------
    Estilo para texto en tablas principales
 ----------------------------------------- */
 .textTable {
   color: #0857a1;
+  font-size: 20px;
   text-align: center;
   font-weight: 900;
   font-family: 'Montserrat', sans-serif;
@@ -22,6 +32,8 @@
 ----------------------------------------- */
 .textTable2 {
   text-align: center;
+  font-size: 18px;
+  padding: 10%;
   font-weight: 500;
   font-family: 'Montserrat', sans-serif;
 }

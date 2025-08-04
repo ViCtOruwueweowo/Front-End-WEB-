@@ -26,7 +26,7 @@ function Index_Director() {
 
   // Paginación
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 7;
+  const itemsPerPage = 8;
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -143,8 +143,8 @@ function Index_Director() {
         {loading ? (
           <p>Cargando directores...</p>
         ) : (
-          <div className="table-responsive" style={{ width: "100%" }}>
-            <table className="table table-bordered">
+          <div className="table-responsive d-none d-md-block" style={{ width: "100%" }}>
+          <table className={`table table-hover table-bordered ${styles.customHover}`}>
               <thead>
                 <tr>
                   <th className={styles.textTable} style={{ color: "#256ea1" }}>
@@ -196,6 +196,32 @@ function Index_Director() {
             {renderPagination()}
           </div>
         )}
+
+<div className="d-block d-md-none" style={{ maxHeight: "65vh", overflowY: "auto", width: "100%" }}>
+        {currentDirectors.length === 0 ? (
+          <p className={styles.textTable2}>No se encontraron directores.</p>
+        ) : (
+          currentDirectors.map((dir, index) => (
+            <div className="card mb-3" key={index}>
+              <div className="card-body">
+                <h5 className="card-title">{dir.firstName} {dir.lastName}</h5>
+                <p className="card-text"><strong>Email:</strong> {dir.email}</p>
+                <p className="card-text"><strong>Teléfono:</strong> {dir.phone}</p>
+                <p className="card-text"><strong>Institución:</strong> {dir.school ? dir.school.name : 'Sin escuela asignada'}</p>
+                <div className="d-flex justify-content-start">
+                  <button className={`btn btn-link p-0 me-3 ${styles.iconHover}`} onClick={() => setModalEditar(dir)}>
+                    <img src="/6.png" alt="Editar" style={{ width: "25px", height: "25px" }} />
+                  </button>
+                  <button className={`btn btn-link p-0 ${styles.iconHover}`} onClick={() => setModalEliminar(dir)}>
+                    <img src="/5.png" alt="Eliminar" style={{ width: "25px", height: "25px" }} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+             {renderPagination()}
+      </div>
       </div>
 
       {/* Modal Editar */}

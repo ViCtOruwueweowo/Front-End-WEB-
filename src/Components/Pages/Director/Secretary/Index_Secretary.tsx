@@ -149,7 +149,7 @@ function Index_Secretary() {
         {loading ? (
           <p>Cargando secretarias...</p>
         ) : (
-          <div className="table-responsive" style={{ width: "100%" }}>
+          <div className="table-responsive d-none d-md-block" style={{ width: "100%" }}>
             <table className="table table-bordered">
               <thead>
                 <tr>
@@ -186,6 +186,31 @@ function Index_Secretary() {
             {renderPagination()}
           </div>
         )}
+
+        <div className="d-block d-md-none" style={{ maxHeight: "65vh", overflowY: "auto", width: "100%" }}>
+        {currentSecretaries.length === 0 ? (
+          <p className={styles.textTable2}>No se encontraron directores.</p>
+        ) : (
+          currentSecretaries.map((dir, index) => (
+            <div className="card mb-3" key={index}>
+              <div className="card-body">
+                <h5 className="card-title">{dir.firstName} {dir.lastName}</h5>
+                <p className="card-text"><strong>Email:</strong> {dir.email}</p>
+                <p className="card-text"><strong>Teléfono:</strong> {dir.phone}</p>
+                <div className="d-flex justify-content-start">
+                  <button className={`btn btn-link p-0 me-3 ${styles.iconHover}`} onClick={() => setModalEditar(dir)}>
+                    <img src="/6.png" alt="Editar" style={{ width: "25px", height: "25px" }} />
+                  </button>
+                  <button className={`btn btn-link p-0 ${styles.iconHover}`} onClick={() => setModalEliminar(dir)}>
+                    <img src="/5.png" alt="Eliminar" style={{ width: "25px", height: "25px" }} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+             {renderPagination()}
+      </div>
       </div>
 
       {/* Modal Editar */}

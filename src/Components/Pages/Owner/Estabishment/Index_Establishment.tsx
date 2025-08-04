@@ -5,9 +5,10 @@ import Primaria from "./Others/Primaria";
 import Kinder from "./Others/Kinder";
 import Guarderia from "./Others/Guarderia";
 
-function Index_Establishment() {
-const [componenteVisible, setComponenteVisible] = useState<string>("guarderia");
+import { BsBuilding } from "react-icons/bs";
 
+function Index_Establishment() {
+  const [componenteVisible, setComponenteVisible] = useState<string>("guarderia");
 
   function getButtonStyle(nombre: string) {
     const baseStyle = {
@@ -28,14 +29,13 @@ const [componenteVisible, setComponenteVisible] = useState<string>("guarderia");
     return baseStyle;
   }
 
-
   function renderComponente() {
     switch (componenteVisible) {
-      case 'guarderia':
+      case "guarderia":
         return <Guarderia />;
-      case 'kinder':
+      case "kinder":
         return <Kinder />;
-      case 'primaria':
+      case "primaria":
         return <Primaria />;
       default:
         return null;
@@ -44,27 +44,103 @@ const [componenteVisible, setComponenteVisible] = useState<string>("guarderia");
 
   return (
     <Layout>
-      <div style={{ backgroundColor: "#0857a1", width: "100%", height: "90px", display: "flex", justifyContent: "center", alignItems: "flex-end", }} className="text-white m-0">
-        <h5 style={{ fontWeight: 100, marginBottom: "10px", marginTop: 0 }} >
+      <div
+        style={{
+          backgroundColor: "#0857a1",
+          width: "100%",
+          height: "90px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "flex-end",
+        }}
+        className="text-white m-0"
+      >
+        <h5 style={{ fontWeight: 100, marginBottom: "10px", marginTop: 0 }}>
           Gestión De Establecimientos
         </h5>
       </div>
 
-      <div className="d-flex justify-content-between flex-wrap align-items-start p-3">
-        <div>
-          <button onClick={() => setComponenteVisible('guarderia')} className="btn" style={getButtonStyle('guarderia')}>
-            Guardería
-          </button>
-          <button onClick={() => setComponenteVisible('kinder')} className="btn" style={getButtonStyle('kinder')}>
-            Kinder
-          </button>
-          <button onClick={() => setComponenteVisible('primaria')} className="btn" style={getButtonStyle('primaria')}>
-            Primaria
-          </button>
+      {/* Contenedor responsive */}
+      <div className="p-3">
+        {/* Escritorio: botones con texto */}
+        <div className="d-none d-md-flex justify-content-between align-items-center">
+          <div>
+            <button
+              onClick={() => setComponenteVisible("guarderia")}
+              className="btn"
+              style={getButtonStyle("guarderia")}
+            >
+              Guardería
+            </button>
+            <button
+              onClick={() => setComponenteVisible("kinder")}
+              className="btn"
+              style={getButtonStyle("kinder")}
+            >
+              Kinder
+            </button>
+            <button
+              onClick={() => setComponenteVisible("primaria")}
+              className="btn"
+              style={getButtonStyle("primaria")}
+            >
+              Primaria
+            </button>
+          </div>
+
+          <Link
+            to="/create-establishment"
+            className="btn"
+            style={{
+              backgroundColor: "#ffffff",
+              color: "#0857a1",
+              border: "3px solid #0857a1",
+              margin: "5px",
+              width: "200px",
+              fontWeight: "600",
+            }}
+          >
+            Añadir Establecimiento
+          </Link>
         </div>
 
-        <div>
-          <Link to="/create-establishment" className="btn" style={{ backgroundColor: "#ffffff", color: "#0857a1", border: "3px solid #0857a1", margin: "5px", width: "200px", fontWeight: "600", }} >
+        {/* Móvil: íconos apilados */}
+        <div className="d-flex d-md-none flex-row justify-content-center align-items-center gap-3 mt-2 flex-wrap">
+          <div className="d-flex gap-3">
+            <button
+              className="btn btn-light border border-primary rounded-circle p-3"
+              onClick={() => setComponenteVisible("guarderia")}
+              title="Guardería"
+            >
+              <BsBuilding size={24} color="#0857a1" />
+            </button>
+            <button
+              className="btn btn-light border border-primary rounded-circle p-3"
+              onClick={() => setComponenteVisible("kinder")}
+              title="Kinder"
+            >
+              <BsBuilding size={24} color="#0857a1" />
+            </button>
+            <button
+              className="btn btn-light border border-primary rounded-circle p-3"
+              onClick={() => setComponenteVisible("primaria")}
+              title="Primaria"
+            >
+              <BsBuilding size={24} color="#0857a1" />
+            </button>
+          </div>
+
+          <Link
+            to="/create-establishment"
+            className="btn"
+            style={{
+              backgroundColor: "#ffffff",
+              color: "#0857a1",
+              border: "3px solid #0857a1",
+              width: "auto",
+
+            }}
+          >
             Añadir Establecimiento
           </Link>
         </div>

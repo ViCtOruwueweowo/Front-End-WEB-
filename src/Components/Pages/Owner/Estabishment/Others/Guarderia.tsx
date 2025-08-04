@@ -24,7 +24,7 @@ function Guarderia() {
 
   // Paginación
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 7;
+  const itemsPerPage = 4;
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -93,8 +93,10 @@ function Guarderia() {
 
   return (
     <div style={{ padding: '10px' }}>
-      <div className="table-responsive w-100">
-        <table className="table table-bordered w-100">
+
+      {/* Tabla para pantallas medianas y grandes */}
+      <div className="d-none d-md-block table-responsive" style={{ maxHeight: "65vh", overflowY: "auto" }}>
+        <table className="table table-bordered">
           <thead>
             <tr>
               <th className={styles.textTable} style={{ color: '#256ea1' }}>Nombre</th>
@@ -105,31 +107,67 @@ function Guarderia() {
             </tr>
           </thead>
           <tbody className="text-center">
-            {currentSchools.map((school) => (
-              <tr key={school.id}>
-                <td className={styles.textTable2}>{school.name || 'No Disponible'}</td>
-                <td className={styles.textTable2}>{school.address || 'No Disponible'}</td>
-                <td className={styles.textTable2}>{school.phone || 'No Disponible'}</td>
-                <td className={styles.textTable2}>{school.city || 'No Disponible'}</td>
-                <td>
-                  <button className={`btn btn-link p-0 me-3 ${styles.iconHover}`} onClick={() => handleViewSchool(school.id)}>
-                    <img src="/8.png" alt="Ver" style={{ width: '25px', height: '25px' }} />
-                  </button>
-                  <button
-                    className={`btn btn-link p-0 me-3 ${styles.iconHover}`}
-                    onClick={() => handleEdit(school.id)}
-                  >
-                    <img src="/6.png" alt="Editar" style={{ width: '25px', height: '25px' }} />
-                  </button>
-                  <button className={`btn btn-link p-0 ${styles.iconHover}`} onClick={() => setModalEliminar(school)}>
-                    <img src="/5.png" alt="Eliminar" style={{ width: '25px', height: '25px' }} />
-                  </button>
+            {currentSchools.length === 0 ? (
+              <tr>
+                <td colSpan={5} className={styles.textTable2}>
+                  No se encontraron escuelas.
                 </td>
               </tr>
-            ))}
+            ) : (
+              currentSchools.map((school) => (
+                <tr key={school.id}>
+                  <td className={styles.textTable2}>{school.name || 'No Disponible'}</td>
+                  <td className={styles.textTable2}>{school.address || 'No Disponible'}</td>
+                  <td className={styles.textTable2}>{school.phone || 'No Disponible'}</td>
+                  <td className={styles.textTable2}>{school.city || 'No Disponible'}</td>
+                  <td>
+                    <button className={`btn btn-link p-0 me-3 ${styles.iconHover}`} onClick={() => handleViewSchool(school.id)}>
+                      <img src="/8.png" alt="Ver" style={{ width: '25px', height: '25px' }} />
+                    </button>
+                    <button className={`btn btn-link p-0 me-3 ${styles.iconHover}`} onClick={() => handleEdit(school.id)}>
+                      <img src="/6.png" alt="Editar" style={{ width: '25px', height: '25px' }} />
+                    </button>
+                    <button className={`btn btn-link p-0 ${styles.iconHover}`} onClick={() => setModalEliminar(school)}>
+                      <img src="/5.png" alt="Eliminar" style={{ width: '25px', height: '25px' }} />
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
+
         </table>
       </div>
+
+      {/* Cards para pantallas pequeñas */}
+    <div className="d-block d-md-none" style={{ maxHeight: "65vh", overflowY: "auto" }}>
+  {currentSchools.length === 0 ? (
+    <p className="text-center text-muted">No se encontraron escuelas.</p>
+  ) : (
+    currentSchools.map((school) => (
+      <div className="card mb-3" key={school.id}>
+        <div className="card-body">
+          <h5 className="card-title">{school.name || 'No Disponible'}</h5>
+          <p className="card-text"><strong>Dirección:</strong> {school.address || 'No Disponible'}</p>
+          <p className="card-text"><strong>Teléfono:</strong> {school.phone || 'No Disponible'}</p>
+          <p className="card-text"><strong>Ciudad:</strong> {school.city || 'No Disponible'}</p>
+          <div className="d-flex justify-content-start gap-3 mt-2">
+            <button className={`btn btn-link p-0 me-3 ${styles.iconHover}`} onClick={() => handleViewSchool(school.id)}>
+              <img src="/8.png" alt="Ver" style={{ width: '25px', height: '25px' }} />
+            </button>
+            <button className={`btn btn-link p-0 me-3 ${styles.iconHover}`} onClick={() => handleEdit(school.id)}>
+              <img src="/6.png" alt="Editar" style={{ width: '25px', height: '25px' }} />
+            </button>
+            <button className={`btn btn-link p-0 ${styles.iconHover}`} onClick={() => setModalEliminar(school)}>
+              <img src="/5.png" alt="Eliminar" style={{ width: '25px', height: '25px' }} />
+            </button>
+          </div>
+        </div>
+      </div>
+    ))
+  )}
+</div>
+
 
       {renderPagination()}
 
