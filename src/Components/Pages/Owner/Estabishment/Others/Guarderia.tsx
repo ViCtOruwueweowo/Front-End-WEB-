@@ -96,7 +96,7 @@ function Guarderia() {
 
       {/* Tabla para pantallas medianas y grandes */}
       <div className="d-none d-md-block table-responsive" style={{ maxHeight: "65vh", overflowY: "auto" }}>
-        <table className="table table-bordered">
+        <table className="table table-hover table-bordered">
           <thead>
             <tr>
               <th className={styles.textTable} style={{ color: '#256ea1' }}>Nombre</th>

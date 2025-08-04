@@ -55,29 +55,35 @@ function SideBar() {
       </nav>
 
       {/* Sidebar vertical en pantallas grandes */}
-      <div
-        className={`d-none d-md-flex flex-column flex-shrink-0 p-3 text-white ${styles.sidebarContainer}`}
-        style={{ width: "280px", height: "100vh", backgroundColor: "#0857a1" }}
-      >
-        <ul className="nav nav-pills flex-column mb-auto mt-4">
-          {filteredItems.map((item, index) => (
-            <li key={index} className={`nav-item mb-3 ${styles.iconHover}`}>
-              <Link
-                to={item.to}
-                className={`nav-link text-white d-flex align-items-center ${styles.linkHover}`}
-              >
-                <img
-                  src={item.icon}
-                  alt=""
-                  className="d-none d-md-inline"
-                  style={{ width: "20px", height: "20px", marginRight: "10px" }}
-                />
-                {item.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
+     <div
+  className={`d-none d-md-flex flex-column flex-shrink-0 p-3 text-white ${styles.sidebarContainer}`}
+  style={{ width: "320px", height: "100vh", backgroundColor: "#0857a1" }}
+>
+  <ul className="nav nav-pills flex-column mb-auto mt-4">
+    {filteredItems.map((item, index) => (
+      <li key={index} className={`nav-item mb-4 ${styles.iconHover}`}>
+        <Link
+          to={item.to}
+          className={`nav-link text-white d-flex align-items-center ${styles.linkHover}`}
+          style={{ fontSize: "1.1rem" }} // aumenta tamaño del texto
+        >
+          <img
+            src={item.icon}
+            alt=""
+            className="d-none d-md-inline"
+            style={{
+              width: "26px",
+              height: "26px",
+              marginRight: "14px",
+            }}
+          />
+          {item.label}
+        </Link>
+      </li>
+    ))}
+  </ul>
+</div>
+
     </>
   );
 }

@@ -150,7 +150,7 @@ function Index_Secretary() {
           <p>Cargando secretarias...</p>
         ) : (
           <div className="table-responsive d-none d-md-block" style={{ width: "100%" }}>
-            <table className="table table-bordered">
+            <table className="table table-hover table-bordered">
               <thead>
                 <tr>
                   <th className={styles.textTable} style={{ color: "#256ea1" }}><b>Secretaria</b></th>

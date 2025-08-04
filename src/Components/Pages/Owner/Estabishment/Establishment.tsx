@@ -37,11 +37,11 @@ function Estabishment() {
   }, [token]);
 
 
-  
-const customOptions = directors.map((director) => ({
-  value: director.id,
-  label: `${director.firstName} ${director.lastName} - ${director.email}`, // string simple
-}));
+
+  const customOptions = directors.map((director) => ({
+    value: director.id,
+    label: `${director.firstName} ${director.lastName} - ${director.email}`, // string simple
+  }));
 
 
   // Función actualizada con las claves correctas
@@ -170,7 +170,7 @@ const customOptions = directors.map((director) => ({
                 </p>
                 <img src="/9.png" alt="Resultado" className="img-fluid" style={{ maxHeight: "200px", marginBottom: "10px" }} />
                 <div className="d-grid gap-2">
-                  <button  className="btn btn-primary" onClick={handleCloseModal}>
+                  <button className="btn btn-primary" onClick={handleCloseModal}>
                     Aceptar
                   </button>
                 </div>
@@ -200,7 +200,7 @@ const customOptions = directors.map((director) => ({
       <br />
 
       <div className="d-flex justify-content-center">
-        <form className="row g-5" style={{ maxWidth: "90%", width: "100%"}} onSubmit={handleSubmit}>
+        <form className="row g-5" style={{ maxWidth: "90%", width: "100%" }} onSubmit={handleSubmit}>
           <div className="col-md-6">
             <label htmlFor="name" className={`${styles.textLabel} from-label`}>
               Nombre
@@ -258,27 +258,27 @@ const customOptions = directors.map((director) => ({
             <label htmlFor="director" className={`${styles.textLabel} from-label`}>
               Asignar Director
             </label>
-          <Select
-  id="director"
-  options={customOptions}
-  onChange={setSelectedDirector}
-  placeholder="Seleccionar Director"
-  value={selectedDirector}
-  styles={{
-    control: (base) => ({
-      ...base,
-      borderColor: "#ced4da",
-      boxShadow: "none",
-      minHeight: "38px",
-    }),
-    menu: (base) => ({
-      ...base,
-      zIndex: 9999,
-      maxHeight: 76, // aprox. 2 opciones * 38px cada una
-      overflowY: "auto",
-    }),
-  }}
-/>
+            <Select
+              id="director"
+              options={customOptions}
+              onChange={setSelectedDirector}
+              placeholder="Seleccionar Director"
+              value={selectedDirector}
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  borderColor: "#ced4da",
+                  boxShadow: "none",
+                  minHeight: "38px",
+                }),
+                menu: (base) => ({
+                  ...base,
+                  zIndex: 9999,
+                  maxHeight: 76, 
+                  overflowY: "auto",
+                }),
+              }}
+            />
             {errors.director && <small className="text-danger">{errors.director}</small>}
           </div>
 

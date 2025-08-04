@@ -69,10 +69,10 @@ function EditarPrimaria() {
         const assigned = schoolData.team_info?.assigned_directors ?? [];
         if (Array.isArray(assigned) && assigned.length > 0) {
           const dir = assigned[0];
-       setSelectedDirector({
-  value: dir.director_id,
-  label: `${dir.name} - ${dir.email}`,
-});
+          setSelectedDirector({
+            value: dir.director_id,
+            label: `${dir.name} - ${dir.email}`,
+          });
 
         } else {
           setSelectedDirector(null);
@@ -87,10 +87,10 @@ function EditarPrimaria() {
     loadAll();
   }, [id, token]);
 
-const customOptions = directors.map((director) => ({
-  value: director.id,
-  label: `${director.firstName} ${director.lastName} - ${director.email}`,
-}));
+  const customOptions = directors.map((director) => ({
+    value: director.id,
+    label: `${director.firstName} ${director.lastName} - ${director.email}`,
+  }));
 
 
 
@@ -217,7 +217,7 @@ const customOptions = directors.map((director) => ({
         style={{
           backgroundColor: "#0857a1",
           width: "100%",
-          height: 90,
+          height: "90px",
           display: "flex",
           justifyContent: "center",
           alignItems: "flex-end",
@@ -235,8 +235,8 @@ const customOptions = directors.map((director) => ({
 
       <div className="d-flex justify-content-center">
         <form
-          className="row g-4"
-          style={{ maxWidth: 900, width: "100%" }}
+          className="row g-5"
+          style={{ maxWidth: "90%", width: "100%" }}
           onSubmit={handleSave}
           noValidate
         >
@@ -324,26 +324,26 @@ const customOptions = directors.map((director) => ({
               Asignar Director
             </label>
             <Select
-  id="director"
-  options={customOptions}
-  onChange={(option: SingleValue<DirectorOption>) => setSelectedDirector(option)}
-  placeholder="Seleccionar Director"
-  value={selectedDirector}
-  isDisabled={true} // 👈 BLOQUEA la selección
-  styles={{
-    control: (base) => ({
-      ...base,
-      borderColor: "#ced4da",
-      boxShadow: "none",
-      minHeight: "38px",
-      backgroundColor: "#e9ecef", // opcional: darle aspecto de desactivado
-    }),
-    menu: (base) => ({
-      ...base,
-      zIndex: 9999,
-    }),
-  }}
-/>
+              id="director"
+              options={customOptions}
+              onChange={(option: SingleValue<DirectorOption>) => setSelectedDirector(option)}
+              placeholder="Seleccionar Director"
+              value={selectedDirector}
+              isDisabled={true} // 👈 BLOQUEA la selección
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  borderColor: "#ced4da",
+                  boxShadow: "none",
+                  minHeight: "38px",
+                  backgroundColor: "#e9ecef", // opcional: darle aspecto de desactivado
+                }),
+                menu: (base) => ({
+                  ...base,
+                  zIndex: 9999,
+                }),
+              }}
+            />
 
             {errors.director && <small className="text-danger">{errors.director}</small>}
           </div>
