@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./SecondFactor.module.css";
 import { verifyCode, resend2FACode } from "../../../Api/Auth";
@@ -9,6 +9,15 @@ function SecondFactor() {
   const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [resendDisabled, setResendDisabled] = useState(false);
+  const [countdown, setCountdown] = useState(0);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, []);
 
   const temporaryToken = localStorage.getItem("temporaryToken") || "";
 
@@ -26,25 +35,36 @@ function SecondFactor() {
   };
 
   const handleResend = async () => {
-  if (!temporaryToken) {
-    setErrorMsg("Token temporal no encontrado. Vuelve a iniciar sesión.");
-    return;
-  }
-
-  setErrorMsg("");
-  setLoading(true);
-
-  try {
-    const data = await resend2FACode(temporaryToken);
-    if (!data.success) {
-      setErrorMsg(data.message || "No se pudo reenviar el código.");
+    if (!temporaryToken) {
+      setErrorMsg("Token temporal no encontrado. Vuelve a iniciar sesión.");
+      return;
     }
-  } catch (error: any) {
-    setErrorMsg("Ocurrió un error al reenviar el código.");
-  } finally {
-    setLoading(false);
-  }
-};
+
+    setErrorMsg("");
+    setLoading(true);
+    setResendDisabled(true);
+    setCountdown(30);
+    intervalRef.current = setInterval(() => {
+      setCountdown(prev => {
+        if (prev <= 1) {
+          if (intervalRef.current) clearInterval(intervalRef.current);
+          setResendDisabled(false);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    try {
+      const data = await resend2FACode(temporaryToken);
+      if (!data.success) {
+        setErrorMsg(data.message || "No se pudo reenviar el código.");
+      }
+    } catch (error: any) {
+      setErrorMsg("Ocurrió un error al reenviar el código.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async () => {
     const code = codeDigits.join("");
@@ -120,13 +140,19 @@ function SecondFactor() {
 
           <div className="row justify-content-center mt-3">
             <div className="col-6">
-          <button type="button" className={styles.boton} onClick={handleResend} disabled={loading}>
-  Reenviar Código
-</button>
+              <button
+                type="button"
+                className={styles.boton}
+                onClick={handleResend}
+                disabled={loading || resendDisabled}  // <--- agregar aquí
+              >
+                {resendDisabled ? `Reenviar en ${countdown}s` : "Reenviar Código"}
+              </button>
+
 
             </div>
           </div>
-          
+
         </div>
       </div>
     </>

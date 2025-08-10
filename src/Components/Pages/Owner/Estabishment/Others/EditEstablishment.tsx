@@ -1,7 +1,7 @@
 import Layout from "../../../../Layout/Layout/Layout";
 import styles from "./Estilo.module.css";
 import { useEffect, useState } from "react";
-import { fetchDirector, Director } from "../../../../../Api/Director";
+import { fetchOutDirectors, Director } from "../../../../../Api/Director";
 import { fetchPrimariaById, updatePrimaria } from "../../../../../Api/Primaria";
 import { useNavigate, useParams } from "react-router-dom";
 import Select, { SingleValue } from "react-select";
@@ -48,7 +48,7 @@ function EditarPrimaria() {
       setLoading(true);
       try {
         const [directorsData, schoolData] = await Promise.all([
-          fetchDirector(token),
+          fetchOutDirectors(token),
           fetchPrimariaById(Number(id), token),
         ]);
 
@@ -65,24 +65,30 @@ function EditarPrimaria() {
           primaria: schoolData.school_types.some((t: any) => t.type === "primaria" || t.id === 3),
         });
 
-        // Validación segura para assigned_directors
-        const assigned = schoolData.team_info?.assigned_directors ?? [];
-        if (Array.isArray(assigned) && assigned.length > 0) {
-          const dir = assigned[0];
+       
+      // Aquí buscamos el director dentro de directorsData para asegurar que sea el objeto correcto
+      const assigned = schoolData.team_info?.assigned_directors ?? [];
+      if (Array.isArray(assigned) && assigned.length > 0) {
+        const dir = assigned[0]; // director asignado
+        // Busca en directorsData el director con id igual a dir.director_id
+        const directorOption = directorsData.find(d => d.id === dir.director_id);
+        if (directorOption) {
           setSelectedDirector({
-            value: dir.director_id,
-            label: `${dir.name} - ${dir.email}`,
+            value: directorOption.id,
+            label: `${directorOption.firstName} ${directorOption.lastName} - ${directorOption.email}`,
           });
-
         } else {
           setSelectedDirector(null);
         }
-      } catch (error) {
-        setModal({ title: "Error", message: "No se pudieron cargar los datos" });
-      } finally {
-        setLoading(false);
+      } else {
+        setSelectedDirector(null);
       }
-    };
+    } catch (error) {
+      setModal({ title: "Error", message: "No se pudieron cargar los datos" });
+    } finally {
+      setLoading(false);
+    }
+  };
 
     loadAll();
   }, [id, token]);
@@ -144,7 +150,7 @@ function EditarPrimaria() {
       school_types: mapTypesToNumbers(),
       director_id: selectedDirector?.value,
     };
-
+    console.log("Payload enviado:", payload);
     try {
       const result = await updatePrimaria(Number(id), payload, token ?? "");
       if (result.success) {
@@ -246,7 +252,7 @@ function EditarPrimaria() {
             </label>
             <input
               type="text"
-              className="form-control"
+             className={`${styles.animatedInput} form-control`}
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -260,7 +266,7 @@ function EditarPrimaria() {
             </label>
             <input
               type="text"
-              className="form-control"
+          className={`${styles.animatedInput} form-control`}
               id="direccion"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
@@ -274,7 +280,7 @@ function EditarPrimaria() {
             </label>
             <input
               type="text"
-              className="form-control"
+             className={`${styles.animatedInput} form-control`}
               id="telefono"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
@@ -288,7 +294,7 @@ function EditarPrimaria() {
             </label>
             <input
               type="text"
-              className="form-control"
+      className={`${styles.animatedInput} form-control`}
               id="ciudad"
               value={city}
               onChange={(e) => setCity(e.target.value)}
@@ -302,7 +308,7 @@ function EditarPrimaria() {
               {["guarderia", "kinder", "primaria"].map((key) => (
                 <div className="d-flex flex-column align-items-center" key={key}>
                   <input
-                    className="form-check-input"
+                   className={`${styles.animatedInput} form-check-input`}
                     type="checkbox"
                     id={`checkbox${key}`}
                     checked={types[key as keyof typeof types]}
@@ -318,35 +324,64 @@ function EditarPrimaria() {
               <small className="text-danger d-block text-center">{errors.types}</small>
             )}
           </div>
-
-          <div className="col-md-6">
-            <label htmlFor="director" className={`${styles.textLabel} form-label`}>
+<div className="col-md-6">
+      <label htmlFor="director" className={`${styles.textLabel} from-label`}>
               Asignar Director
             </label>
-            <Select
-              id="director"
-              options={customOptions}
-              onChange={(option: SingleValue<DirectorOption>) => setSelectedDirector(option)}
-              placeholder="Seleccionar Director"
-              value={selectedDirector}
-              isDisabled={true} // 👈 BLOQUEA la selección
-              styles={{
-                control: (base) => ({
-                  ...base,
-                  borderColor: "#ced4da",
-                  boxShadow: "none",
-                  minHeight: "38px",
-                  backgroundColor: "#e9ecef", // opcional: darle aspecto de desactivado
-                }),
-                menu: (base) => ({
-                  ...base,
-                  zIndex: 9999,
-                }),
-              }}
-            />
+    <Select
+  id="director"
+  options={customOptions}
+  onChange={(option: SingleValue<DirectorOption>) => {
+    console.log("Director seleccionado:", option);
+    setSelectedDirector(option);
+  }}
+  placeholder="Seleccionar Director"
+  value={selectedDirector}
+  styles={{
+    control: (base, state) => ({
+      ...base,
+      borderColor: state.isFocused ? "#0857a1" : "#ced4da",
+      boxShadow: state.isFocused
+        ? "0 0 10px 3px rgba(8, 87, 161, 0.5)"
+        : "none",
+      transition: "all 0.3s ease",
+      borderRadius: "4px",
+      minHeight: "38px",
+      "&:hover": {
+        borderColor: "#0857a1",
+      },
+    }),
+    menu: (base) => ({
+      ...base,
+      zIndex: 9999,
+      maxHeight: 150,
+      overflowY: "auto",
+      borderRadius: "6px",
+      boxShadow: "0px 4px 12px rgba(0,0,0,0.15)",
+      animation: "fadeIn 0.2s ease-in-out",
+    }),
+    option: (base, state) => ({
+      ...base,
+      backgroundColor: state.isSelected
+        ? "#0857a1"
+        : state.isFocused
+        ? "rgba(8, 87, 161, 0.1)"
+        : "white",
+      color: state.isSelected ? "white" : "#0857a1",
+      cursor: "pointer",
+      transition: "all 0.2s ease",
+      fontFamily: "Montserrat, sans-serif",
+      fontSize: "14px",
+    }),
+    singleValue: (base) => ({
+      ...base,
+      color: "#0857a1",
+      fontFamily: "Montserrat, sans-serif",
+    }),
+  }}
+/>
 
-            {errors.director && <small className="text-danger">{errors.director}</small>}
-          </div>
+</div>
 
           <div className="col-12 text-white d-flex justify-content-center align-items-center">
             <button

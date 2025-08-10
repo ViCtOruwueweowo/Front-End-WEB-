@@ -190,3 +190,29 @@
     max-width: none !important;
   }
 }
+/* Estilo base para inputs */
+input.form-control {
+  border: 2px solid #0857a1;
+  border-radius: 4px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  outline: none; /* quitar el outline por defecto */
+}
+
+/* Animación al hacer foco */
+input.form-control:focus {
+  border-color: #0857a1;
+  box-shadow: 0 0 8px 2px rgba(56, 182, 255, 0.7);
+}
+
+/* al final de Directors.module.css */
+.animatedInput {
+  border: 2px solid #e0e1e2;
+  border-radius: 4px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  outline: none;
+}
+
+.animatedInput:focus {
+  border-color: #0857a1;
+  box-shadow: 0 0 10px 3px rgba(8, 87, 161, 0.7);
+}

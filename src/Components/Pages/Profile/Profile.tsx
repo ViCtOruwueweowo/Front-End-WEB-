@@ -69,8 +69,14 @@ function Profile() {
     const fetchProfile = async () => {
       try {
         const res = await getMyProfile();
+
         if (res.success) {
-          setUserData(res.data);
+          setUserData({
+            ...res.data,
+            img_route: res.img_route, // aunque no lo uses para imagen, lo dejamos por si lo usas en otro lugar
+          });
+
+          localStorage.setItem("school_id", res.school_id?.toString() || "");
         } else {
           setAlertMessage(res.message || "No se pudo cargar el perfil");
           setTimeout(() => setAlertMessage(null), 4000);
@@ -121,19 +127,36 @@ function Profile() {
         }}
         className="text-white d-flex align-items-center m-0"
       >
-        <img className={`${style.imagen}`} src="./icono.jpg" alt="" />
+        <div
+          className={`${style.imagen}`}
+          style={{
+            backgroundColor: "#0857a1",
+            color: "#ffffff",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "11vh",
+            fontWeight: "bold",
+            textTransform: "uppercase",
+            border: "2px solid #92e2e2",
+            width: "150px",
+            height: "150px",
+            borderRadius: "50%",
+          }}
+        >
+          {userData?.firstName?.charAt(0) || "?"}
+        </div>
       </div>
 
       <div
         className={`${style.userName}`}
-        style={{ marginLeft: "10px", marginTop: "60px", color: "#000" }}
+        style={{ marginLeft: "35px", marginTop: "80px", color: "#000" }}
       >
         {userData?.firstName} {userData?.lastName}
       </div>
 
       <br />
       <br />
-      
 
       <div className={`${style.contenedorUser}`}>
         <h4 className={`${style.principal}`}>Mi Información</h4>

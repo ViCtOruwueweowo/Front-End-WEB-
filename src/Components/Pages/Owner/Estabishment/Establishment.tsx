@@ -1,13 +1,13 @@
 import Layout from "../../../Layout/Layout/Layout";
 import styles from "./Establishment.module.css";
 import { useEffect, useState } from "react";
-import { fetchDirector, Director } from "../../../../Api/Director";
+import { fetchOutDirectors, Director } from "../../../../Api/Director";
 import Select from "react-select";
 import { createSchool } from "../../../../Api/Schools";
 import { useNavigate } from "react-router-dom";
 import FullScreenLoader from "../../../Layout/Loading/FullScreenLoader";
 
-function Estabishment() {
+function Establishment() {
   const [directors, setDirectors] = useState<Director[]>([]);
   const [token] = useState<string | null>(localStorage.getItem("jwt"));
   const [selectedDirector, setSelectedDirector] = useState<any>(null);
@@ -16,7 +16,6 @@ function Estabishment() {
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [city, setCity] = useState("");
-  // Cambié el estado para que coincida con los keys usados en el map de checkboxes
   const [types, setTypes] = useState<{ guarderia: boolean; kinder: boolean; primaria: boolean }>({
     guarderia: false,
     kinder: false,
@@ -30,21 +29,21 @@ function Estabishment() {
 
   useEffect(() => {
     const loadDirectors = async () => {
-      const data = await fetchDirector(token);
-      setDirectors(data);
+      try {
+        const data = await fetchOutDirectors(token);
+        setDirectors(data || []);
+      } catch {
+        setModal({ title: "Error", message: "No se pudo cargar la lista de directores." });
+      }
     };
     loadDirectors();
   }, [token]);
 
-
-
   const customOptions = directors.map((director) => ({
     value: director.id,
-    label: `${director.firstName} ${director.lastName} - ${director.email}`, // string simple
+    label: `${director.firstName} ${director.lastName} - ${director.email}`,
   }));
 
-
-  // Función actualizada con las claves correctas
   const mapTypesToNumbers = () => {
     const result: number[] = [];
     if (types.kinder) result.push(1);
@@ -76,8 +75,7 @@ function Estabishment() {
       newErrors.city = "Solo letras, entre 2 y 50 caracteres.";
     }
 
-    const school_types = mapTypesToNumbers();
-    if (school_types.length === 0) {
+    if (mapTypesToNumbers().length === 0) {
       newErrors.types = "Selecciona al menos un tipo.";
     }
 
@@ -122,7 +120,7 @@ function Estabishment() {
         setTypes({ guarderia: false, kinder: false, primaria: false });
         setSelectedDirector(null);
       } else {
-        setModal({ title: "Error", message: result.message });
+        setModal({ title: "Error", message: result.message || "No se pudo crear el establecimiento." });
       }
     } catch {
       setLoading(false);
@@ -141,10 +139,9 @@ function Estabishment() {
     <Layout>
       {loading && <FullScreenLoader />}
 
-      {/* Modal Éxito/Error */}
       {modal && (
         <div
-          className={`modal fade show d-block`}
+          className="modal fade show d-block"
           tabIndex={-1}
           role="dialog"
           style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
@@ -180,7 +177,6 @@ function Estabishment() {
         </div>
       )}
 
-      {/* Encabezado */}
       <div
         style={{
           backgroundColor: "#0857a1",
@@ -192,7 +188,9 @@ function Estabishment() {
         }}
         className="text-white m-0"
       >
-        <h5 style={{ fontWeight: 100, marginBottom: "10px", marginTop: 0 }}>Añadir Nuevo Establecimiento</h5>
+        <h5 style={{ fontWeight: 100, marginBottom: "10px", marginTop: 0 }}>
+          Añadir Nuevo Establecimiento
+        </h5>
       </div>
 
       <br />
@@ -205,7 +203,7 @@ function Estabishment() {
             <label htmlFor="name" className={`${styles.textLabel} from-label`}>
               Nombre
             </label>
-            <input type="text" className="form-control" id="name" value={name} onChange={(e) => setName(e.target.value)} />
+            <input type="text" className={`${styles.animatedInput} form-control`} id="name" value={name} onChange={(e) => setName(e.target.value)} />
             {errors.name && <small className="text-danger">{errors.name}</small>}
           </div>
 
@@ -213,7 +211,7 @@ function Estabishment() {
             <label htmlFor="direccion" className={`${styles.textLabel} from-label`}>
               Dirección
             </label>
-            <input type="text" className="form-control" id="direccion" value={address} onChange={(e) => setAddress(e.target.value)} />
+            <input type="text" className={`${styles.animatedInput} form-control`} id="direccion" value={address} onChange={(e) => setAddress(e.target.value)} />
             {errors.address && <small className="text-danger">{errors.address}</small>}
           </div>
 
@@ -221,7 +219,7 @@ function Estabishment() {
             <label htmlFor="telefono" className={`${styles.textLabel} from-label`}>
               Teléfono
             </label>
-            <input type="text" className="form-control" id="telefono" value={phone} onChange={(e) => setPhone(e.target.value)} />
+            <input type="text" className={`${styles.animatedInput} form-control`} id="telefono" value={phone} onChange={(e) => setPhone(e.target.value)} />
             {errors.phone && <small className="text-danger">{errors.phone}</small>}
           </div>
 
@@ -229,7 +227,7 @@ function Estabishment() {
             <label htmlFor="ciudad" className={`${styles.textLabel} from-label`}>
               Ciudad
             </label>
-            <input type="text" className="form-control" id="ciudad" value={city} onChange={(e) => setCity(e.target.value)} />
+            <input type="text" className={`${styles.animatedInput} form-control`} id="ciudad" value={city} onChange={(e) => setCity(e.target.value)} />
             {errors.city && <small className="text-danger">{errors.city}</small>}
           </div>
 
@@ -239,7 +237,7 @@ function Estabishment() {
               {["guarderia", "kinder", "primaria"].map((key) => (
                 <div className="d-flex flex-column align-items-center" key={key}>
                   <input
-                    className="form-check-input"
+                    className={`${styles.animatedInput} form-check-input`}
                     type="checkbox"
                     id={`radio${key}`}
                     checked={types[key as keyof typeof types]}
@@ -258,27 +256,61 @@ function Estabishment() {
             <label htmlFor="director" className={`${styles.textLabel} from-label`}>
               Asignar Director
             </label>
-            <Select
-              id="director"
-              options={customOptions}
-              onChange={setSelectedDirector}
-              placeholder="Seleccionar Director"
-              value={selectedDirector}
-              styles={{
-                control: (base) => ({
-                  ...base,
-                  borderColor: "#ced4da",
-                  boxShadow: "none",
-                  minHeight: "38px",
-                }),
-                menu: (base) => ({
-                  ...base,
-                  zIndex: 9999,
-                  maxHeight: 76, 
-                  overflowY: "auto",
-                }),
-              }}
-            />
+           <Select
+  id="director"
+  options={customOptions}
+  onChange={setSelectedDirector}
+  placeholder="Seleccionar Director"
+  value={selectedDirector}
+  styles={{
+    control: (base, state) => ({
+      ...base,
+      borderColor: state.isFocused ? "#0857a1" : "#ced4da",
+      boxShadow: state.isFocused
+        ? "0 0 10px 3px rgba(8, 87, 161, 0.5)"
+        : "none",
+      transition: "all 0.3s ease",
+      borderRadius: "4px",
+      minHeight: "38px",
+      "&:hover": {
+        borderColor: "#0857a1",
+      },
+    }),
+    menu: (base) => ({
+      ...base,
+      zIndex: 9999,
+      maxHeight: 150,
+      overflowY: "auto",
+      borderRadius: "6px",
+      boxShadow: "0px 4px 12px rgba(0,0,0,0.15)",
+      animation: "fadeIn 0.2s ease-in-out",
+    }),
+    option: (base, state) => ({
+      ...base,
+      backgroundColor: state.isSelected
+        ? "#0857a1"
+        : state.isFocused
+        ? "rgba(8, 87, 161, 0.1)"
+        : "white",
+      color: state.isSelected ? "white" : "#0857a1",
+      cursor: "pointer",
+      transition: "all 0.2s ease",
+      fontFamily: "Montserrat, sans-serif",
+      fontSize: "14px",
+    }),
+    placeholder: (base) => ({
+      ...base,
+      color: "#6c757d",
+      fontFamily: "Montserrat, sans-serif",
+    }),
+    singleValue: (base) => ({
+      ...base,
+      color: "#0857a1",
+      fontFamily: "Montserrat, sans-serif",
+    }),
+  }}
+/>
+
             {errors.director && <small className="text-danger">{errors.director}</small>}
           </div>
 
@@ -297,4 +329,4 @@ function Estabishment() {
   );
 }
 
-export default Estabishment;
+export default Establishment;

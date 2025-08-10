@@ -62,6 +62,28 @@ export async function fetchDirector(token: string | null): Promise<Director[]> {
   }
 }
 
+
+//Ver Directores Sin Escuela
+export async function fetchOutDirectors(token: string | null): Promise<Director[]> {
+  if (!token) return [];
+
+  try {
+    const res = await axios.get("https://apidev.safekids.site/api1/users/my-directors", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (res.data.success) {
+      return res.data.data as Director[];
+    } else {
+      return [];
+    }
+  } catch (error) {
+    console.error("Error al cargar directores:", error);
+    return [];
+  }
+}
+
+
 // Editar Director
 export async function editDirector(
   id: number,
@@ -100,3 +122,4 @@ export async function deleteDirector(id: number, token: string | null): Promise<
     return false;
   }
 }
+

@@ -29,6 +29,7 @@ export const logoutUser = async (): Promise<void> => {
     );
 
     localStorage.removeItem("jwt");
+     localStorage.removeItem("school_id");
   } catch (error: any) {
     if (error.response) {
       console.error("Respuesta del servidor:", error.response.data);

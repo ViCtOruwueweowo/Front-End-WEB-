@@ -1,3 +1,4 @@
+// src/components/RecoverEmail.tsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./RecoverCode.module.css";
@@ -21,31 +22,34 @@ function RecoverEmail() {
     try {
       const response = await sendRecoveryEmail(email);
 
-      setSuccess(response.success);
-      setMessage(response.message);
-
       if (response.success) {
+        setSuccess(true);
+        // Asumo que el mensaje viene en response.data.message
+        setMessage(response.data?.message || "Correo enviado correctamente.");
         localStorage.setItem("recoverEmail", email);
         navigate("/recover-2");
-      }
-    } catch (error: any) {
-      if (error.response) {
-        const status = error.response.status;
-        const msg = error.response.data?.message || "";
+      } else {
+        const status = response.status;
+        // El mensaje puede venir en data.message o en message (para fallo conexión)
+        const msg = response.data?.message || response.message || "";
 
-        if (status === 400 && msg === "Email is required and must be valid") {
+        if (status === 400 && msg === "El correo electrónico es inválido") {
           setMessage("Debes ingresar un correo electrónico válido.");
-        } else if (status === 404 && msg === "User not found") {
+        } else if (status === 404 && msg === "Usuario no encontrado") {
           setMessage("El correo electrónico no está registrado.");
-        } else if (status === 500 && msg === "Server failed") {
+        } else if (status === 500 && msg === "Caida del servidor") {
           setMessage("Error del servidor. Intenta más tarde.");
+        } else if (status === 0) {
+          // Error de conexión (status 0 en tu función)
+          setMessage("No se pudo conectar al servidor.");
         } else {
           setMessage("Ocurrió un error inesperado. Intenta más tarde.");
         }
-      } else {
-        setMessage("No se pudo conectar al servidor.");
+        setSuccess(false);
       }
-
+    } catch (error) {
+      // Este catch es para errores no controlados o inesperados
+      setMessage("Error inesperado. Intenta más tarde.");
       setSuccess(false);
     } finally {
       setLoading(false);
@@ -58,7 +62,9 @@ function RecoverEmail() {
       <div className={styles.wrapper}>
         <div className="container">
           <div className="row">
-            <div className={`col-md-6 d-none d-md-flex flex-column justify-content-center align-items-center ${styles.pagina}`}>
+            <div
+              className={`col-md-6 d-none d-md-flex flex-column justify-content-center align-items-center ${styles.pagina}`}
+            >
               <h1 className={`${styles.titulo} ${styles.tituloEscribiendo}`}>Safe Kids</h1>
               <img className={styles.imagen} src="/dsadsa.png" alt="Safe Kids logo" />
             </div>
@@ -84,11 +90,7 @@ function RecoverEmail() {
                   </div>
                 )}
 
-                <button
-                  type="submit"
-                  className={`btn ${styles.btnPersonalizado}`}
-                  disabled={loading}
-                >
+                <button type="submit" className={`btn ${styles.btnPersonalizado}`} disabled={loading}>
                   <b>{loading ? "Enviando..." : "Enviar"}</b>
                 </button>
               </form>

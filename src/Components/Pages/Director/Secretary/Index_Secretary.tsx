@@ -257,7 +257,7 @@ function Index_Secretary() {
       <div className={`modal fade ${modalEliminar ? "show d-block" : ""}`} tabIndex={-1} style={{ backgroundColor: modalEliminar ? "rgba(0,0,0,0.5)" : "transparent" }} aria-modal={modalEliminar ? "true" : "false"}>
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
-            <h5 className={`${styles.modale}`}>¿Estás seguro de emprender la siguiente acción?</h5>
+            <h5 className="text-center" style={{ color: "#0857a1", marginTop: 15 }}>¿Estas Seguro De Emprender La Siguiente Accion?</h5>
             <div className="modal-body">
               {modalEliminar && (
                 <p style={{ color: "#0857a1", fontSize: "20px" }}>

@@ -15,20 +15,34 @@
   cursor: pointer;
 }
 
-/* Estilo de hover para enlaces del sidebar y navbar mobile */
 .linkHover {
+  position: relative;
   transition: background-color 0.3s ease, padding-left 0.3s ease;
 }
 
-/* Hover para pantallas con cursor */
+.linkHover::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 0;
+  background-color: white;
+  transition: width 0.3s ease;
+}
+
 .linkHover:hover {
   background-color: rgba(255, 255, 255, 0.1);
   padding-left: 12px;
   cursor: pointer;
 }
 
-/* Efecto active para touch devices - da feedback al pulsar */
-.linkHover:active {
-  background-color: rgba(255, 255, 255, 0.2);
-  padding-left: 14px;
+.linkHover:hover::after,
+.activeLink::after {
+  width: 97%;
+}
+
+/* Para que la línea blanca también aparezca cuando el link está activo */
+.activeLink {
+  /* si quieres, puedes agregar estilos extra para el link activo */
 }

@@ -10,6 +10,7 @@ import {
 } from "../../../../Api/Director";
 
 function Index_Director() {
+  
   const [directors, setDirectors] = useState<Director[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -26,7 +27,7 @@ function Index_Director() {
 
   // Paginación
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
+  const itemsPerPage = 7;
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -86,24 +87,30 @@ function Index_Director() {
       setModalEditar(null);
       mostrarModalExito("Accion Exitosa");
     } else {
-      alert("Error al actualizar director");
+    setModalEditar(null);
+    setMensajeError("No se pudo actualizar el director, Verifique los datos ingresados.");
+    setTimeout(() => setMensajeError(null), 5000);
     }
   };
+const [mensajeError, setMensajeError] = useState<string | null>(null);
 
-  const handleEliminarDirector = async () => {
-    if (!modalEliminar) return;
-    const token = localStorage.getItem("jwt");
-    const success = await deleteDirector(modalEliminar.id, token);
+const handleEliminarDirector = async () => {
+  if (!modalEliminar) return;
+  const token = localStorage.getItem("jwt");
+  const success = await deleteDirector(modalEliminar.id, token);
 
-    if (success) {
-      const actualizadas = directors.filter((d) => d.id !== modalEliminar.id);
-      setDirectors(actualizadas);
-      setModalEliminar(null);
-      mostrarModalExito("Accion Exitosa");
-    } else {
-      alert("No se pudo eliminar el director.");
-    }
-  };
+  if (success) {
+    const actualizadas = directors.filter((d) => d.id !== modalEliminar.id);
+    setDirectors(actualizadas);
+    setModalEliminar(null);
+    mostrarModalExito("Accion Exitosa");
+  } else {
+    setModalEliminar(null);
+    setMensajeError("No se pudo eliminar el director, Puede que esté asociado a una escuela.");
+    setTimeout(() => setMensajeError(null), 5000);
+  }
+};
+
 
   const renderPagination = () => (
     <div className={styles.pagination}>
@@ -122,6 +129,7 @@ function Index_Director() {
 
 
   return (
+    
     <Layout>
       <div style={{backgroundColor: "#0857a1",width: "100%", height: "90px", display: "flex", justifyContent: "center", alignItems: "flex-end", }} className="text-white m-0">
         <h5 style={{ fontWeight: 100, marginBottom: "10px", marginTop: 0 }}>
@@ -303,6 +311,21 @@ function Index_Director() {
           </div>
         </div>
       </div>
+{mensajeError && (
+  <div
+    className="alert alert-danger alert-dismissible fade show position-fixed top-0 end-0 m-4 shadow"
+    role="alert"
+    style={{ zIndex: 1050, minWidth: "300px", maxWidth: "400px" }}
+  >
+    {mensajeError}
+    <button
+      type="button"
+      className="btn-close"
+      onClick={() => setMensajeError(null)}
+      aria-label="Close"
+    ></button>
+  </div>
+)}
 
     </Layout>
   );

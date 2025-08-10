@@ -126,3 +126,9 @@ Botón personalizado
 .boton:hover {
   background-color: #007a8c;
 }
+
+.boton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  /* otros estilos para que se note */
+}

@@ -18,10 +18,8 @@ function Guarderia() {
   const [modalLoading, setModalLoading] = useState<boolean>(false);
   const [modalError, setModalError] = useState<string | null>(null);
   const [modalEliminar, setModalEliminar] = useState<School | null>(null);
-
-  // Estado para modal éxito
   const [modalExito, setModalExito] = useState<string | null>(null);
-
+  const [mensajeError, setMensajeError] = useState<string | null>(null);
   // Paginación
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
@@ -54,19 +52,19 @@ function Guarderia() {
 
   const handleEliminarGuarderia = () => {
     if (!modalEliminar) return;
-    const token = localStorage.getItem('jwt');
-
-    deleteGuarderiaById(modalEliminar.id, token)
-      .then(() => {
-        // Mostrar modal de éxito en vez de alert
-        setModalExito("Guardería eliminada correctamente");
-        setSchools(prev => prev.filter(s => s.id !== modalEliminar.id));
-        setModalEliminar(null);
-      })
-      .catch(err => {
-        console.error(err);
-        alert(`Ocurrió un error: ${err.message}`);
-      });
+      const token = localStorage.getItem("jwt");
+  
+      deleteGuarderiaById(modalEliminar.id, token)
+        .then(() => {
+          setModalExito("Kinder eliminado correctamente");
+          setSchools((prev) => prev.filter((s) => s.id !== modalEliminar.id));
+          setModalEliminar(null);
+        })
+        .catch((err) => {
+          console.error(err);
+          setModalEliminar(null);
+          setMensajeError(`Aun existe información relacionada con la escuela. No se puede eliminar.`);
+        });
   };
 
   const handleEdit = (id: number) => {
@@ -288,7 +286,21 @@ function Guarderia() {
           </div>
         </div>
       )}
-
+  {mensajeError && (
+        <div
+          className="alert alert-warning alert-dismissible fade show position-fixed top-0 end-0 m-4 shadow"
+          role="alert"
+          style={{ zIndex: 1050, minWidth: "300px", maxWidth: "400px" }}
+        >
+          {mensajeError}
+          <button
+            type="button"
+            className="btn-close"
+            onClick={() => setMensajeError(null)}
+            aria-label="Close"
+          ></button>
+        </div>
+      )}
     </div>
   );
 }

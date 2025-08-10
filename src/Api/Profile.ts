@@ -12,8 +12,16 @@ export const getMyProfile = async () => {
     },
   });
 
-  return response.data;
+  const data = response.data;
+
+  // Guardar school_id en localStorage
+  if (data?.school_id) {
+    localStorage.setItem("school_id", data.school_id.toString());
+  }
+
+  return data;
 };
+
 
 export const changePassword = async (password: string) => {
   const token = localStorage.getItem("jwt");

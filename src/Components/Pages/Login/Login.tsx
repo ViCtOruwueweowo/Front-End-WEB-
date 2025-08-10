@@ -4,10 +4,12 @@ import styles from "./Login.module.css";
 import { loginUser } from "../../../Api/Auth";
 import FullScreenLoader from "../../Layout/Loading/FullScreenLoader";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -26,13 +28,12 @@ function Login() {
     } catch (error: any) {
       if (error.response) {
         const status = error.response.status;
-        const message = error.response.data?.message || "";
         if (status === 401) setErrorMsg("Correo o contraseña incorrectos.");
         else if (status === 404) setErrorMsg("El usuario no existe.");
         else if (status === 403) setErrorMsg("Usuario inactivo o sin acceso.");
         else setErrorMsg("Error inesperado. Intenta nuevamente.");
       } else {
-        setErrorMsg("No se pudo conectar al servidor.");
+        setErrorMsg("Error inesperado, por favor intentar más tarde.");
       }
     } finally {
       setLoading(false);
@@ -62,13 +63,43 @@ function Login() {
               <p className={styles.tituloEscribiendo}>Favor de llenar los campos solicitados</p>
 
               <form onSubmit={handleSubmit} className={styles.formulario}>
-                <input type="email"className={`form-control ${styles.inputs}`}
-                  placeholder="Correo Electrónico"value={email} onChange={(e) => setEmail(e.target.value)}
-                  required disabled={loading} />
+                <input 
+                  type="email"
+                  className={`form-control ${styles.inputs}`}
+                  placeholder="Correo Electrónico"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required 
+                  disabled={loading} 
+                />
 
-                <input type="password" className={`form-control ${styles.inputs}`} placeholder="Contraseña"
-                  value={password} onChange={(e) => setPassword(e.target.value)}
-                  required disabled={loading} />
+               <div className="position-relative" style={{ width: "100%", maxWidth: "450px", margin: "0 auto" }}>
+  <input
+    type={showPassword ? "text" : "password"}
+    className={`form-control ${styles.inputs}`}
+    placeholder="Contraseña"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    required
+    disabled={loading}
+    style={{ paddingRight: "2.5rem" }} // espacio para el ojo
+  />
+  <span
+    onClick={() => setShowPassword(!showPassword)}
+    style={{
+      position: "absolute",
+      right: "12px",
+      top: "50%",
+      transform: "translateY(-60%)",
+      cursor: "pointer",
+      fontSize: "1.3rem",
+      color: "#666"
+    }}
+  >
+    {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+  </span>
+</div>
+
 
                 {errorMsg && (
                   <div className={`alert alert-danger ${styles.alerta}`} role="alert">
@@ -83,7 +114,6 @@ function Login() {
                 <button type="submit" className={`btn ${styles.btnPersonalizado}`} disabled={loading}>
                   <b>Ingresar</b>
                 </button>
-                
               </form>
             </div>
           </div>

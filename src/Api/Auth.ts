@@ -19,7 +19,20 @@ export const verifyCode = async (
       code,
       temporaryToken,
     });
+
+    // Si la respuesta es exitosa
+    if (res.data?.success) {
+      // Guardar school en localStorage
+      localStorage.setItem("school", JSON.stringify(res.data.school));
+
+      // (Opcional) también guardar token si lo necesitas
+      if (res.data.token) {
+        localStorage.setItem("jwt", res.data.token);
+      }
+    }
+
     return res.data;
+
   } catch (error: any) {
     if (error.response) {
       return {
@@ -40,11 +53,24 @@ export const verifyCode = async (
   }
 };
 
+
 const RESEND_URL = "https://apidev.safekids.site/api1/users/resend-2fa";
 
-export const resend2FACode = async (temporaryToken: string) => {
+export const resend2FACode = async () => {
   try {
-    const res = await axios.post(RESEND_URL, { temporaryToken });
+    // Obtener email desde localStorage
+    const email = localStorage.getItem("email");
+    
+    if (!email) {
+      return {
+        success: false,
+        message: "No hay correo guardado en localStorage.",
+      };
+    }
+
+    // Enviar el email en el body de la petición
+    const res = await axios.post(RESEND_URL, { email });
+
     return res.data;
   } catch (error: any) {
     if (error.response) {
@@ -65,3 +91,4 @@ export const resend2FACode = async (temporaryToken: string) => {
     }
   }
 };
+

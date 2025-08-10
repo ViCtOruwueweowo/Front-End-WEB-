@@ -1,6 +1,4 @@
-
 // src/Api/Primaria.ts
-
 export interface SchoolType {
   id: number;
   type: string;
@@ -77,20 +75,32 @@ export async function fetchPrimariaById(id: number, token: string | null): Promi
 }
 
 export async function deletePrimariaById(id: number, token: string | null) {
-  const res = await fetch(`https://apidev.safekids.site/api1/schools/delete/${id}`, {
+  // 1. Intentar eliminar carpeta física de la escuela (envío solo el número)
+  const resFs = await fetch(`https://apidev.safekids.site/api2/eliminar/escuela`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`, 
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(id),  // <-- Aquí solo el número, no objeto
+  });
+  const dataFs = await resFs.json();
+  if (!dataFs.success) throw new Error(dataFs.message || "Error al eliminar carpeta física");
+
+  // 2. Si la carpeta fue eliminada, eliminar la escuela en base de datos
+  const resDb = await fetch(`https://apidev.safekids.site/api1/schools/delete/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
   });
+  const dataDb = await resDb.json();
+  if (!dataDb.success) throw new Error(dataDb.message || "Error al eliminar en DB");
 
-  const data = await res.json();
-
-  if (!data.success) throw new Error(data.message || "Error al eliminar");
-
-  return data;
+  return { fs: dataFs, db: dataDb };
 }
+
 
 export interface UpdateSchoolPayload {
   name?: string;
@@ -98,7 +108,7 @@ export interface UpdateSchoolPayload {
   phone?: string;
   city?: string;
   school_types?: number[];
-  director_id?: number | null;
+  director_id?: string | null;
   status?: boolean;
 }
 

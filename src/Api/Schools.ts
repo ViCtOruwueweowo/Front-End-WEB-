@@ -41,3 +41,5 @@ export async function createSchool(
     return { success: false, message: "Hubo un error de conexión." };
   }
 }
+
+
