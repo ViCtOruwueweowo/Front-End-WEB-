@@ -156,7 +156,7 @@ const handleEliminarDirector = async () => {
               <thead>
                 <tr>
                   <th className={styles.textTable} style={{ color: "#256ea1" }}>
-                    <b>Direccion</b>
+                    <b>Director</b>
                   </th>
                   <th className={styles.textTable} style={{ color: "#256ea1" }}>
                     <b>Correo</b>

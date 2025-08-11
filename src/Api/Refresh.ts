@@ -1,5 +1,3 @@
-// src/Api/Refresh.ts
-
 export interface RefreshResponse {
   success: boolean;
   message: string;
@@ -21,7 +19,6 @@ export async function refreshToken(token: string): Promise<RefreshResponse> {
     const response = await fetch("https://apidev.safekids.site/api1/users/refresh-token", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
@@ -30,6 +27,11 @@ export async function refreshToken(token: string): Promise<RefreshResponse> {
 
     if (!response.ok) {
       throw new Error(data.message || "Error al renovar token");
+    }
+
+    // Guardar token nuevo si la API lo devuelve
+    if (data.success && data.data?.token) {
+      localStorage.setItem("jwt", data.data.token);
     }
 
     return data as RefreshResponse;

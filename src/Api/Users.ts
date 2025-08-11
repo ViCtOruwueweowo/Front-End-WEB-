@@ -10,22 +10,18 @@ export const registerUser = async (formData: FormData, token: string) => {
       },
     }
   );
-
   return response.data;
 };
-
 
 export const getMySchools = async () => {
   try {
     const token = localStorage.getItem('jwt');
-
     const response = await axios.get('https://apidev.safekids.site/api1/schools/my-schools', {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json'
       }
     });
-
     if (response.data.success) {
       console.log('Escuelas encontradas:', response.data.data);
       return response.data.data;
