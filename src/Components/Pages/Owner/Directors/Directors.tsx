@@ -47,9 +47,9 @@ function Directors() {
   useEffect(() => {
     const fetchImageAsFile = async () => {
       try {
-        const response = await fetch("/ZY.png");
+        const response = await fetch("/1.png");
         const blob = await response.blob();
-        const file = new File([blob], "ZY.png", { type: blob.type });
+        const file = new File([blob], "1.png", { type: blob.type });
         setFormData(prev => ({ ...prev, profilePhoto: file }));
       } catch (error) {
         console.error("Error al cargar imagen fija:", error);
@@ -139,6 +139,7 @@ function Directors() {
       formDataUser.append("phone", formData.phone);
       formDataUser.append("email", formData.email);
       formDataUser.append("password", formData.password);
+    
       formDataUser.append("profilePhoto", formData.profilePhoto as File);
 
       await registerUser(formDataUser, token);
@@ -186,12 +187,12 @@ function Directors() {
 
       <div className="text-white d-flex justify-content-center align-items-center m-0">
         <form className="row g-5" style={{ maxWidth: "90%", width: "100%" }} onSubmit={handleSubmit} >
-        
+
           <div className="col-md-6">
             <label htmlFor="firstName" className={styles.textLabel}>
               Nombre
             </label>
-            <input type="text" className={`${styles.animatedInput} form-control`} id="firstName" value={formData.firstName}onChange={handleChange} required/>
+            <input type="text" className={`${styles.animatedInput} form-control`} id="firstName" value={formData.firstName} onChange={handleChange} required />
             {errors.firstName && (
               <small className="text-danger">{errors.firstName}</small>
             )}
@@ -201,7 +202,7 @@ function Directors() {
             <label htmlFor="password" className={styles.textLabel}>
               Contraseña
             </label>
-            <input type="password" className={`${styles.animatedInput} form-control`} id="password" value={formData.password}onChange={handleChange}required />
+            <input type="password" className={`${styles.animatedInput} form-control`} id="password" value={formData.password} onChange={handleChange} required />
             {errors.password && (
               <small className="text-danger">{errors.password}</small>
             )}
@@ -211,7 +212,7 @@ function Directors() {
             <label htmlFor="lastName" className={styles.textLabel}>
               Apellido
             </label>
-            <input type="text" className={`${styles.animatedInput} form-control`} id="lastName" value={formData.lastName} onChange={handleChange}required />
+            <input type="text" className={`${styles.animatedInput} form-control`} id="lastName" value={formData.lastName} onChange={handleChange} required />
             {errors.lastName && (
               <small className="text-danger">{errors.lastName}</small>
             )}
@@ -221,7 +222,7 @@ function Directors() {
             <label htmlFor="phone" className={styles.textLabel}>
               Teléfono
             </label>
-            <input type="text" className={`${styles.animatedInput} form-control`} id="phone" value={formData.phone} onChange={handleChange}required/>
+            <input type="text" className={`${styles.animatedInput} form-control`} id="phone" value={formData.phone} onChange={handleChange} required />
             {errors.phone && (
               <small className="text-danger">{errors.phone}</small>
             )}
@@ -231,14 +232,14 @@ function Directors() {
             <label htmlFor="email" className={styles.textLabel}>
               Email
             </label>
-            <input type="email" className={`${styles.animatedInput} form-control`} id="email" value={formData.email} onChange={handleChange} required/>
+            <input type="email" className={`${styles.animatedInput} form-control`} id="email" value={formData.email} onChange={handleChange} required />
             {errors.email && (
               <small className="text-danger">{errors.email}</small>
             )}
           </div>
 
           <div className="col-12 d-flex justify-content-center align-items-center">
-            <button style={{ width: "220px", backgroundColor: "#0857a1", color: "white", margin: "10px",}}type="submit" className="btn btn-primary" disabled={loading} >
+            <button style={{ width: "220px", backgroundColor: "#0857a1", color: "white", margin: "10px", }} type="submit" className="btn btn-primary" disabled={loading} >
               <b>Generar Registro</b>
             </button>
           </div>
@@ -246,7 +247,7 @@ function Directors() {
       </div>
 
       {mensajeError && (
-        <div className="alert alert-danger alert-dismissible fade show position-fixed top-0 end-0 m-4 shadow"  role="alert" style={{ zIndex: 1050, minWidth: "300px", maxWidth: "400px" }} >
+        <div className="alert alert-danger alert-dismissible fade show position-fixed top-0 end-0 m-4 shadow" role="alert" style={{ zIndex: 1050, minWidth: "300px", maxWidth: "400px" }} >
           {mensajeError}
           <button type="button" className="btn-close" onClick={() => setMensajeError(null)} aria-label="Close"></button>
         </div>

@@ -76,7 +76,7 @@ export async function fetchPrimariaById(id: number, token: string | null): Promi
 
 export async function deletePrimariaById(id: number, token: string | null) {
   // 1. Intentar eliminar carpeta física de la escuela (envío solo el número)
-  const resFs = await fetch(`https://apidev.safekids.site/api2/eliminar/escuela`, {
+  const resFs = await fetch(`http://159.223.195.148:8001/api2/eliminar/escuela`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`, 
