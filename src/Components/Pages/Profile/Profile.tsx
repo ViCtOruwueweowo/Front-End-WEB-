@@ -12,11 +12,8 @@ function Profile() {
   const [newPassword, setNewPassword] = useState("");
   const [error, setError] = useState("");
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
-
-  // Estados para mostrar/ocultar modales
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-
   const openPasswordModal = () => setShowPasswordModal(true);
   const closePasswordModal = () => {
     setShowPasswordModal(false);
@@ -75,7 +72,6 @@ function Profile() {
             ...res.data,
             img_route: res.img_route, // aunque no lo uses para imagen, lo dejamos por si lo usas en otro lugar
           });
-
           localStorage.setItem("school_id", res.school_id?.toString() || "");
         } else {
           setAlertMessage(res.message || "No se pudo cargar el perfil");
@@ -197,11 +193,7 @@ function Profile() {
               </button>
             </div>
             <div className="col-6 d-grid">
-              <button
-                className={`${style.btnedit}`}
-                type="button"
-                onClick={openPasswordModal}
-              >
+              <button className={`${style.btnedit}`} type="button" onClick={openPasswordModal}>
                 <b>Modificar Contraseña</b>
               </button>
             </div>
@@ -212,73 +204,46 @@ function Profile() {
 
       {/* Modal para cambiar contraseña */}
       {showPasswordModal && (
-        <div
-          className="modal fade show d-block"
-          style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
-          aria-modal="true"
-          role="dialog"
-        >
+        <div className="modal fade show d-block" style={{ backgroundColor: "rgba(0,0,0,0.5)" }} aria-modal="true" role="dialog">
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content rounded-4 shadow-sm p-4">
+
+              <div className="d-flex justify-content-end">
+                <button type="button" className="btn-close" aria-label="Close" onClick={closePasswordModal}></button>
+              </div>
+
               <div className="mb-3 row">
-                <label className={`col-sm-4 col-form-label ${style.modaltext}`}>Nombre</label>
+                <label className={`col-sm-4 col-form-label ${style.modaltext}`}> Nombre</label>
                 <div className="col-sm-8">
-                  <input
-                    type="text"
-                    readOnly
-                    className="form-control-plaintext"
-                    value={userData?.firstName || "-"}
-                  />
+                  <input type="text" readOnly className="form-control-plaintext" value={userData?.firstName || "-"}/>
                 </div>
               </div>
 
               <div className="mb-3 row">
-                <label className={`col-sm-4 col-form-label ${style.modaltext}`}>Apellido</label>
+                <label className={`col-sm-4 col-form-label ${style.modaltext}`}> Apellido</label>
                 <div className="col-sm-8">
-                  <input
-                    type="text"
-                    readOnly
-                    className="form-control-plaintext"
-                    value={userData?.lastName || "-"}
-                  />
+                  <input type="text" readOnly className="form-control-plaintext" value={userData?.lastName || "-"}/>
                 </div>
               </div>
 
               <div className="mb-3 row">
-                <label className={`col-sm-4 col-form-label ${style.modaltext}`}>Teléfono</label>
+                <label className={`col-sm-4 col-form-label ${style.modaltext}`}> Teléfono</label>
                 <div className="col-sm-8">
-                  <input
-                    type="text"
-                    readOnly
-                    className="form-control-plaintext"
-                    value={userData?.phone || "-"}
-                  />
+                  <input  type="text" readOnly className="form-control-plaintext" value={userData?.phone || "-"} />
                 </div>
               </div>
 
               <div className="mb-3 row">
-                <label className={`col-sm-4 col-form-label ${style.modaltext}`}>
-                  Correo Electrónico
-                </label>
+                <label className={`col-sm-4 col-form-label ${style.modaltext}`}> Correo Electrónico </label>
                 <div className="col-sm-8">
-                  <input
-                    type="email"
-                    readOnly
-                    className="form-control-plaintext"
-                    value={userData?.email || "-"}
-                  />
+                  <input type="email" readOnly className="form-control-plaintext"  value={userData?.email || "-"} />
                 </div>
               </div>
 
               <div className="mb-3 row">
-                <label className={`col-sm-4 col-form-label ${style.modaltext}`}>Contraseña</label>
+                <label className={`col-sm-4 col-form-label ${style.modaltext}`}> Contraseña</label>
                 <div className="col-sm-8">
-                  <input
-                    type="password"
-                    className="form-control"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                  />
+                  <input type="password" className="form-control" value={newPassword}  onChange={(e) => setNewPassword(e.target.value)} />
                   {error && (
                     <div className="text-danger mt-1" style={{ fontSize: "0.9em" }}>
                       {error}
@@ -303,43 +268,16 @@ function Profile() {
 
       {/* Modal de éxito */}
       {showSuccessModal && (
-        <div
-          className="modal fade show d-block"
-          tabIndex={-1}
-          role="dialog"
-          style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
-          aria-modal="true"
-        >
+        <div className="modal fade show d-block" tabIndex={-1} role="dialog" style={{ backgroundColor: "rgba(0,0,0,0.5)" }} aria-modal="true" >
           <div className="modal-dialog modal-dialog-centered" role="document">
             <div className="modal-content">
               <div className="modal-body text-center">
-                <p
-                  style={{
-                    marginTop: "15px",
-                    marginBottom: "15px",
-                    fontSize: "18px",
-                    marginLeft: "40px",
-                    marginRight: "40px",
-                    fontFamily: "Inter, sans-serif",
-                    color: "#0857a1",
-                    fontWeight: 500,
-                    textAlign: "center",
-                  }}
-                >
+                <p style={{ marginTop: "15px", marginBottom: "15px", fontSize: "18px", marginLeft: "40px", marginRight: "40px", fontFamily: "Inter, sans-serif", color: "#0857a1", fontWeight: 500, textAlign: "center", }} >
                   Éxito
                 </p>
-
-                <img
-                  src="/9.png"
-                  alt="Éxito"
-                  className="img-fluid"
-                  style={{ maxHeight: "200px", marginBottom: "10px" }}
-                />
-
+                <img src="/9.png" alt="Éxito" className="img-fluid" style={{ maxHeight: "200px", marginBottom: "10px" }} />
                 <div className="d-grid gap-2">
-                  <button className={style.btnedit} onClick={closeSuccessModal}>
-                    Aceptar
-                  </button>
+                  <button className={style.btnedit} onClick={closeSuccessModal}> Aceptar </button>
                 </div>
               </div>
             </div>

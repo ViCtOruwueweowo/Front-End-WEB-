@@ -18,9 +18,8 @@ export async function createSchool(
   }
 
   try {
-    console.log("Enviando payload a API:", payload); // Log para revisar payload
 
-    const response = await fetch("https://apidev.safekids.site/api1/schools/create", {
+    const response = await fetch("https://api.safekids.site/api1/schools/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

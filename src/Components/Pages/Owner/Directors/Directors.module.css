@@ -216,3 +216,17 @@ input.form-control:focus {
   border-color: #0857a1;
   box-shadow: 0 0 10px 3px rgba(8, 87, 161, 0.7);
 }
+
+.customHover tbody tr:hover {
+  background-color: #d9e8fb; /* Color de fondo al pasar el mouse */
+  cursor: pointer;
+}
+
+.customHoverRow {
+  transition: background-color 0.3s ease;
+}
+
+.customHoverRow:hover {
+  background-color: #0471ff;
+  cursor: pointer;
+}

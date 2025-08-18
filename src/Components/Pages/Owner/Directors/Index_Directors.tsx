@@ -132,9 +132,9 @@ const handleEliminarDirector = async () => {
     
     <Layout>
       <div style={{backgroundColor: "#0857a1",width: "100%", height: "90px", display: "flex", justifyContent: "center", alignItems: "flex-end", }} className="text-white m-0">
-        <h5 style={{ fontWeight: 100, marginBottom: "10px", marginTop: 0 }}>
-          Gestion De Directores
-        </h5>
+        <h4 style={{ fontWeight: 100, marginBottom: "10px", marginTop: 0 }}>
+         Gestión De Directores
+        </h4>
       </div>
 
       <br />
@@ -152,7 +152,7 @@ const handleEliminarDirector = async () => {
           <p>Cargando directores...</p>
         ) : (
           <div className="table-responsive d-none d-md-block" style={{ width: "100%" }}>
-          <table className={`table table-hover table-bordered ${styles.customHover}`}>
+         <table className={`table table-hover table-bordered ${styles.customHover}`}>
               <thead>
                 <tr>
                   <th className={styles.textTable} style={{ color: "#256ea1" }}>
@@ -181,7 +181,7 @@ const handleEliminarDirector = async () => {
                   </tr>
                 ) : (
                   currentDirectors.map((dir, index) => (
-                    <tr key={index}>
+                       <tr key={index} className={styles.customHoverRow}>
                       <td className={styles.textTable2}>
                         {dir.firstName} {dir.lastName}
                       </td>

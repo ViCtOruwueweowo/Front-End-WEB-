@@ -47,9 +47,9 @@ function Secretary() {
   useEffect(() => {
     const fetchImageAsFile = async () => {
       try {
-        const response = await fetch("/ZY.png");
+        const response = await fetch("/1.png");
         const blob = await response.blob();
-        const file = new File([blob], "ZY.png", { type: blob.type });
+        const file = new File([blob], "/1.png", { type: blob.type });
         setFormData(prev => ({ ...prev, profilePhoto: file }));
       } catch (error) {
         console.error("Error al cargar imagen fija:", error);
@@ -175,9 +175,9 @@ function Secretary() {
       {modal && <Modal title={modal.title} onClose={handleCloseModal} />}
 
        <div style={{ backgroundColor: "#0857a1", width: "100%", height: "90px", display: "flex", justifyContent: "center", alignItems: "flex-end", }} className="text-white m-0">
-        <h5 style={{ fontWeight: 100, marginBottom: "10px", marginTop: 0 }}>
+        <h4 style={{ fontWeight: 100, marginBottom: "10px", marginTop: 0 }}>
           Añadir Nueva Secretaria
-        </h5>
+        </h4>
       </div>
 
       <br />

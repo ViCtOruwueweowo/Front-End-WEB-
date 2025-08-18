@@ -55,9 +55,9 @@ function Index_Establishment() {
         }}
         className="text-white m-0"
       >
-        <h5 style={{ fontWeight: 100, marginBottom: "10px", marginTop: 0 }}>
-          Gestión De Establecimientos
-        </h5>
+        <h4 style={{ fontWeight: 100, marginBottom: "10px", marginTop: 0 }}>
+         Gestión De Establecimientos
+        </h4>
       </div>
 
       {/* Contenedor responsive */}

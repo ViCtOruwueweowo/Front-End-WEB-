@@ -176,9 +176,9 @@ function Directors() {
       {modal && <Modal title={modal.title} onClose={handleCloseModal} />}
 
       <div style={{ backgroundColor: "#0857a1", width: "100%", height: "90px", display: "flex", justifyContent: "center", alignItems: "flex-end", }} className="text-white m-0">
-        <h5 style={{ fontWeight: 100, marginBottom: "10px", marginTop: 0 }}>
+        <h4 style={{ fontWeight: 100, marginBottom: "10px", marginTop: 0 }}>
           Añadir Nuevo Director
-        </h5>
+        </h4>
       </div>
 
       <br />

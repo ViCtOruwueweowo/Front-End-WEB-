@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const sendRecoveryEmail = async (email: string) => {
   try {
-    const response = await axios.post("https://apidev.safekids.site/api1/users/reset-password", { email });
+    const response = await axios.post("https://api.safekids.site/api1/users/reset-password", { email });
     return { success: true, data: response.data, status: response.status };
   } catch (error: any) {
     if (error.response) {
@@ -17,7 +17,7 @@ export const sendRecoveryEmail = async (email: string) => {
 
 export const verifyCode = async (code: string) => {
   try {
-    const response = await axios.post("https://apidev.safekids.site/api1/users/password-challenge", {
+    const response = await axios.post("https://api.safekids.site/api1/users/password-challenge", {
       code: code,
     });
 
@@ -39,7 +39,7 @@ export const verifyCode = async (code: string) => {
 
 export const changePassword = async (resetToken: string, password: string) => {
   try {
-    const response = await axios.post("https://apidev.safekids.site/api1/users/change-password", {
+    const response = await axios.post("https://api.safekids.site/api1/users/change-password", {
       resetToken,
       password
     });

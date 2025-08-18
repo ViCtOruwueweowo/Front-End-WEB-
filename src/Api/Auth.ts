@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const LOGIN_URL = "https://apidev.safekids.site/api1/users/login";
-const VERIFY_URL = "https://apidev.safekids.site/api1/users/verify-2fa";
+const LOGIN_URL = "https://api.safekids.site/api1/users/login";
+const VERIFY_URL = "https://api.safekids.site/api1/users/verify-2fa";
 
 /* Login: devuelve el temporaryToken */
 export const loginUser = async (email: string, password: string) => {
@@ -54,7 +54,7 @@ export const verifyCode = async (
 };
 
 
-const RESEND_URL = "https://apidev.safekids.site/api1/users/resend-2fa";
+const RESEND_URL = "https://api.safekids.site/api1/users/resend-2fa";
 
 export const resend2FACode = async () => {
   try {

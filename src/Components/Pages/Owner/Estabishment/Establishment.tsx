@@ -79,9 +79,7 @@ function Establishment() {
       newErrors.types = "Selecciona al menos un tipo.";
     }
 
-    if (!selectedDirector) {
-      newErrors.director = "Selecciona un director.";
-    }
+  
 
     return newErrors;
   };
@@ -188,9 +186,9 @@ function Establishment() {
         }}
         className="text-white m-0"
       >
-        <h5 style={{ fontWeight: 100, marginBottom: "10px", marginTop: 0 }}>
+        <h4 style={{ fontWeight: 100, marginBottom: "10px", marginTop: 0 }}>
           Añadir Nuevo Establecimiento
-        </h5>
+        </h4>
       </div>
 
       <br />

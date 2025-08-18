@@ -14,11 +14,10 @@ export const logoutUser = async (): Promise<void> => {
     return;
   }
 
-  console.log("Token actual:", token); // para depuración
 
   try {
     await axios.post(
-      "https://apidev.safekids.site/api1/users/logout",
+      "https://api.safekids.site/api1/users/logout",
       {}, // cuerpo vacío
       {
         headers: {

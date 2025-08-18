@@ -41,7 +41,7 @@ export interface School {
 }
 
 export async function fetchPrimaria(token: string | null): Promise<School[]> {
-  const res = await fetch("https://apidev.safekids.site/api1/schools", {
+  const res = await fetch("https://api.safekids.site/api1/schools", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -59,7 +59,7 @@ export async function fetchPrimaria(token: string | null): Promise<School[]> {
 }
 
 export async function fetchPrimariaById(id: number, token: string | null): Promise<School> {
-  const res = await fetch(`https://apidev.safekids.site/api1/schools/${id}`, {
+  const res = await fetch(`https://api.safekids.site/api1/schools/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -76,7 +76,7 @@ export async function fetchPrimariaById(id: number, token: string | null): Promi
 
 export async function deletePrimariaById(id: number, token: string | null) {
   // 1. Intentar eliminar carpeta física de la escuela (envío solo el número)
-  const resFs = await fetch(`http://159.223.195.148:8001/api2/eliminar/escuela`, {
+  const resFs = await fetch(`https://api2.safekids.site/api2/eliminar/escuela`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`, 
@@ -88,7 +88,7 @@ export async function deletePrimariaById(id: number, token: string | null) {
   if (!dataFs.success) throw new Error(dataFs.message || "Error al eliminar carpeta física");
 
   // 2. Si la carpeta fue eliminada, eliminar la escuela en base de datos
-  const resDb = await fetch(`https://apidev.safekids.site/api1/schools/delete/${id}`, {
+  const resDb = await fetch(`https://api.safekids.site/api1/schools/delete/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -119,7 +119,7 @@ export async function updatePrimaria(
   token: string
 )
 : Promise<{ success: boolean; message?: string }> {
-  const response = await fetch(`https://apidev.safekids.site/api1/schools/edit/${id}`, {
+  const response = await fetch(`https://api.safekids.site/api1/schools/edit/${id}`, {
     method: "PUT", // o PATCH, según backend
     headers: {
       "Content-Type": "application/json",

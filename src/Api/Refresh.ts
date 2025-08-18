@@ -16,7 +16,7 @@ export interface RefreshResponse {
 
 export async function refreshToken(token: string): Promise<RefreshResponse> {
   try {
-    const response = await fetch("https://apidev.safekids.site/api1/users/refresh-token", {
+    const response = await fetch("https://api.safekids.site/api1/users/refresh-token", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,

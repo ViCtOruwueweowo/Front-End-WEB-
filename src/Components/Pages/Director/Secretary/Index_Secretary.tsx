@@ -130,16 +130,16 @@ function Index_Secretary() {
   return (
     <Layout>
       <div style={{ backgroundColor: "#0857a1", width: "100%", height: "90px", display: "flex", justifyContent: "center", alignItems: "flex-end", }} className="text-white m-0">
-        <h5 style={{ fontWeight: 100, marginBottom: "10px", marginTop: 0 }}>
+        <h4 style={{ fontWeight: 100, marginBottom: "10px", marginTop: 0 }}>
           Gestión De Secretarias
-        </h5>
+        </h4>
       </div>
 
       <br />
 
       <div className="d-flex justify-content-end">
         <Link to="/create-secretary" className="btn" style={{ backgroundColor: "#ffffff", color: "#0857a1", border: "3px solid #0857a1", margin: "5px", width: "200px" }}>
-          <b>Añadir Secretaria</b>
+          Añadir Secretaria
         </Link>
       </div>
 

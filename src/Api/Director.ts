@@ -47,7 +47,7 @@ export async function fetchDirector(token: string | null): Promise<Director[]> {
   if (!token) return [];
 
   try {
-    const res = await axios.get("https://apidev.safekids.site/api1/users/type/3", {
+    const res = await axios.get("https://api.safekids.site/api1/users/type/3", {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -57,7 +57,6 @@ export async function fetchDirector(token: string | null): Promise<Director[]> {
       return [];
     }
   } catch (error) {
-    console.error("Error al cargar directores:", error);
     return [];
   }
 }
@@ -68,7 +67,7 @@ export async function fetchOutDirectors(token: string | null): Promise<Director[
   if (!token) return [];
 
   try {
-    const res = await axios.get("https://apidev.safekids.site/api1/users/my-directors", {
+    const res = await axios.get("https://api.safekids.site/api1/users/my-directors", {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -78,7 +77,6 @@ export async function fetchOutDirectors(token: string | null): Promise<Director[
       return [];
     }
   } catch (error) {
-    console.error("Error al cargar directores:", error);
     return [];
   }
 }
@@ -95,14 +93,13 @@ export async function editDirector(
 
   try {
     const res = await axios.put(
-      `https://apidev.safekids.site/api1/users/edit/${id}`,
+      `https://api.safekids.site/api1/users/edit/${id}`,
       { email, phone },
       { headers: { Authorization: `Bearer ${token}` } }
     );
 
     return res.data.success === true;
   } catch (error) {
-    console.error("Error al editar director:", error);
     return false;
   }
 }
@@ -112,13 +109,12 @@ export async function deleteDirector(id: number, token: string | null): Promise<
   if (!token) return false;
 
   try {
-    const res = await axios.delete(`https://apidev.safekids.site/api1/users/delete/${id}`, {
+    const res = await axios.delete(`https://api.safekids.site/api1/users/delete/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
     return res.data.success === true;
   } catch (error) {
-    console.error("Error al eliminar director:", error);
     return false;
   }
 }
